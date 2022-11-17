@@ -6,7 +6,9 @@
 {%load static%}
 <div class="container text-center my-20">
     <br>
-
+    <a href=" {% url 'profilis' profilis.user %}" class="text-dark" style="text-decoration:none"><h5 class=" text-center"><img src="{{profilis.profile_img.url}}" width="60"
+         height="60" class="rounded-circle mr-3" style="object-fit:cover;"> {{profilis.name}} {{profilis.surname}}</h5></a>
+    <hr>
     <h3>{{single_skelbimas.name}} </h3>
     <p>{{single_skelbimas.about}}</p>
     <p>Atlyginimas: {{single_skelbimas.salary}}</p>

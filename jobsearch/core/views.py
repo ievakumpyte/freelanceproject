@@ -243,6 +243,7 @@ def skelbimai(request):
 
 def skelbimas(request, skelbimas_id):
     single_skelbimas = get_object_or_404(Skelbimas, pk=skelbimas_id)
+    profilis = Profile.objects.get(user=single_skelbimas.user_id.user)
 
     user = request.user
 
@@ -257,6 +258,7 @@ def skelbimas(request, skelbimas_id):
     context = {
         'single_skelbimas': single_skelbimas,
         'favorited': favorited,
+        'profilis':profilis,
 
     }
 
@@ -287,7 +289,16 @@ def pridetiskelbima(request):
 
 def aplikavimas(request, skelb_id):
     skelibimas = Skelbimas.objects.get(id=skelb_id)
+    from_user = request.user
+    to_user_username = skelibimas.user_id.user
+    body = request.POST.get('body')
 
+    if request.method == 'POST':
+        to_user = User.objects.get(username=to_user_username)
+        Message.send_message(from_user, to_user, body)
+        return redirect('inbox')
+    else:
+        HttpResponseBadRequest()
     return render(request, 'aplikavimas.html')
 
 

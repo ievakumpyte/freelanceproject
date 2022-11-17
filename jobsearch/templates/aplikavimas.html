@@ -12,24 +12,23 @@
             <div class="col col-lg-9 col-xl-7">
                 <div class="card text-center">
                     <br>
-                    <h3>Aplikavimas</h3>
+                    <h3>Susisiekti</h3>
 
                     <div class="container justify-content-center w-50">
-
+                        <form action="" method="POST">
+                            {% csrf_token %}
                         <div class="forms">
-                            <div class="inputs my-2"><span>El. paštas</span> <input class="form-control" name="message" type="text" required>
-                            </div>
                             <div class="inputs my-2">
-                                <span>Žinutė</span> <textarea type="text" class="form-control" required></textarea>
+                                <span>Žinutė</span> <textarea type="text" name="body" rows="4" class="form-control my-2" style="text-align: center;" required>Sveiki,&#10; susidomėjau jūsų skelbimu! Kviečiu peržiūrėti mano portfolio ir susisiekti.</textarea>
+                            </div>
+                            <input type="hidden" name="to_user" value=" {{user}}">
 
-                            </div>
-                            <div class="inputs my-2"><span>Tipas</span>
-                                <input class="form-control" type="text" required>
                                 <button type="submit" class="btn btn-dark btn-lg btn-block my-5" style="width:90%">
-                                    Išsaugoti
+                                    Siųsti
                                 </button>
-                            </div>
+
                         </div>
+                            </form>
                     </div>
                 </div>
             </div>
