@@ -12,10 +12,15 @@
 
 
                     <div class="card-body p-4 text-black">
-                        <h4 class="text-center"> {{single_portfolio.name}}</h4>
-                        <a href=" {% url 'profilis' single_portfolio.user_id.user %}" class="text-dark" style="text-decoration:none"><p><img src="{{profilis.profile_img.url}}" width="40"
-                             height="40" class="rounded-circle mr-3" style="object-fit:cover;"> {{single_portfolio.user_id.name}} {{single_portfolio.user_id.surname}}</p></a>
-                        <p>Aprasymas: {{single_portfolio.about}}</p>
+
+                        <a href=" {% url 'profilis' single_portfolio.user_id.user %}" class="text-dark" style="text-decoration:none"><h5 class=" text-center"><img src="{{profilis.profile_img.url}}" width="60"
+                             height="60" class="rounded-circle mr-3" style="object-fit:cover;"> {{single_portfolio.user_id.name}} {{single_portfolio.user_id.surname}}</h5></a>
+                        <hr>
+                        <div class="ms-5 my-4">
+                        <h5 class="text-center"> {{single_portfolio.name}}</h5>
+
+                        <p> {{single_portfolio.about}}</p>
+                            </div>
                         <div class="d-flex flex-row-reverse bd-highlight">
 
                             {% if favorited == False%}
@@ -39,11 +44,8 @@
                             {%endif%}
                         </div>
 
-
                         </div>
                             <img src="{{single_portfolio.cover.url}}">
-
-
                             {% if portfolio_images%}
                             {% for img in portfolio_images%}
                             {% if img.image%}
@@ -59,8 +61,6 @@
                             {%else%}
 
                             {% endif %}
-
-
                     </div>
                 </div>
             </div>
@@ -68,8 +68,8 @@
     </div>
 </section>
 
-<div class="container-fluid py-5 h-100">
-    <div class="row height d-flex justify-content-center align-items-center">
+<div class="container-fluid h-100">
+    <div class="row height d-flex justify-content-center align-items-center mb-4">
         <div class="col-md-7">
             <div class="card">
                 <div class="p-3">
@@ -88,7 +88,7 @@
                 {% for comment in comments %}
                 <div class="mt-2">
 
-                    <div class="d-flex flex-row p-3 ms-4">
+                    <div class="d-flex flex-row p-3 ms-4 my-4">
 
                         <img src="{{comment.user.profile.profile_img.url}}" width="40"
                              height="40" class="rounded-circle mr-3" style="object-fit:cover;">
@@ -99,9 +99,8 @@
                                 <small> {{comment.date}}</small>
                             </div>
                             <p class="text-justify comment-text mb-0 mx-4">{{comment.body}}</p>
-                            <div class="d-flex flex-row user-feed mx-4"><span class="wish"><i
-                                    class="bi bi-heart me-1"></i>24</span> <span class="ms-3"><i
-                                    class="fa fa-comments-o mr-2"></i>Reply</span></div>
+                            <div class="d-flex flex-row user-feed mx-4">
+<!--                                <span class="wish"><i class="fa fa-comments-o mr-2"></i>Reply</span></div>-->
                         </div>
                     </div>
                     {% endfor %}
@@ -111,5 +110,7 @@
             </div>
         </div>
     </div>
+</div>
+    <br>
 </div>
 {% endblock %}

@@ -49,6 +49,8 @@
                 <li class="nav-item"><a class="nav-link text-light" href="{% url 'issaugoti'%}">Išsaugoti
                     </a></li>
 
+
+
                 <li class="nav-item"><a class="nav-link text-light" href="{% url 'inbox' %}">Žinutės
                     {% if directs_count%}
                     <span class="badge"> {{directs_count}} </span>
@@ -56,6 +58,15 @@
                     <p></p>
                     {%endif%}
                     </a></li>
+
+                <li class="nav-item"><a class="nav-link text-light" href="{% url 'show-notifications' %}"><span><i class="bi bi-bell"></i></span>
+                    {% if count_notifications%}
+                    <span class="badge"> {{count_notifications}} </span>
+                    {%else%}
+                    <p></p>
+                    {%endif%}
+                    </a></li>
+
 
                 <li class="nav-item"><a class="nav-link text-light" href="{% url 'manoprofilis' user.id %}">
                     <svg class="bi bi-person" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor"

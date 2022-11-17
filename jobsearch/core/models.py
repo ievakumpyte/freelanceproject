@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Max
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save, post_delete
 
 # Create your models here.
 class Profile(models.Model):
@@ -37,6 +38,10 @@ class Portfolio(models.Model):
     class Meta:
         ordering = ["-date"]
 
+class Images(models.Model):
+    image = models.ImageField("Image", upload_to='portfolio_image', null=True, blank=True)
+    portfolio_id = models.ForeignKey("Portfolio", on_delete=models.CASCADE)
+
 class Skelbimas(models.Model):
     name = models.CharField("Name",max_length=100, null=True,blank=True)
     about = models.CharField("About",max_length=100,null=True, blank=True)
@@ -57,23 +62,23 @@ class Comment(models.Model):
     body = models.TextField()
     date= models.DateTimeField(auto_now_add=True)
 
-    # def user_comment_port(sender, instance, *args, **kwargs):
-    #     comment = instance
-    #     porfolio = comment.porfolio
-    #     text_preview = comment.body[:90]
-    #     sender = comment.user
-    #
-    #
-    #     notify = Notification(portfolio=porfolio, sender=sender,user=porfolio.user_id.user,text_preview=text_preview, notification_type=2)
-    #     notify.save()
-    #
-    # def user_del_comment_port(sender, instance, *args, **kwargs):
-    #     comment = instance
-    #     porfolio = comment.porfolio
-    #     sender = comment.user
-    #
-    #     notify = Notification.objects.filter(portfolio=porfolio,user=porfolio.user_id, sender=sender, notification_type=2)
-    #     notify.delete()
+    def user_comment_port(sender, instance, *args, **kwargs):
+        comment = instance
+        porfolio = comment.porfolio
+        text_preview = comment.body[:90]
+        sender = comment.user
+
+
+        notify = Notification(portfolio=porfolio, sender=sender,user=porfolio.user_id.user,text_preview=text_preview, notification_type=2)
+        notify.save()
+
+    def user_del_comment_port(sender, instance, *args, **kwargs):
+        comment = instance
+        porfolio = comment.porfolio
+        sender = comment.user
+
+        notify = Notification.objects.filter(portfolio=porfolio,user=porfolio.user_id, sender=sender, notification_type=2)
+        notify.delete()
 
 
 class Message(models.Model):
@@ -131,16 +136,34 @@ class Likes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_like")
     portfolio = models.ForeignKey("Portfolio", on_delete=models.CASCADE, related_name="post_likes")
 
-    # def user_liked_port(sender, instance, *args, **kwargs):
-    #     like = instance
-    #     portfolio = like.portfolio
-    #     sender = like.user
-    #     notify = Notification(portfolio=portfolio, sender=sender,user=portfolio.user_id.user, notification_type=1)
-    #     notify.save()
-    #
-    # def user_unliked_port(sender, instance, *args, **kwargs):
-    #     like = instance
-    #     portfolio = like.portfolio
-    #     sender = like.user
-    #     notify = Notification.objects.filter(portfolio=portfolio, sender=sender, notification_type=1)
-    #     notify.delete()
+    def user_liked_port(sender, instance, *args, **kwargs):
+        like = instance
+        portfolio = like.portfolio
+        sender = like.user
+        notify = Notification(portfolio=portfolio, sender=sender,user=portfolio.user_id.user, notification_type=1)
+        notify.save()
+
+    def user_unliked_port(sender, instance, *args, **kwargs):
+        like = instance
+        portfolio = like.portfolio
+        sender = like.user
+        notify = Notification.objects.filter(portfolio=portfolio, sender=sender, notification_type=1)
+        notify.delete()
+
+class Notification(models.Model):
+    NOTIFICATION_TYPES = ((1, 'Like'), (2, 'Comment'),(3, 'Follow'))
+
+    portfolio = models.ForeignKey('Portfolio', on_delete=models.CASCADE, related_name='noti_port', blank=True, null=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='noti_from_user')
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="noti_to_user")
+    notification_type = models.IntegerField(choices=NOTIFICATION_TYPES)
+    text_preview = models.CharField(max_length=90, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    is_seen = models.BooleanField(default=False)
+
+
+post_save.connect(Likes.user_liked_port, sender=Likes)
+post_delete.connect(Likes.user_unliked_port, sender=Likes)
+
+post_save.connect(Comment.user_comment_port, sender=Comment)
+post_delete.connect(Comment.user_del_comment_port, sender=Comment)

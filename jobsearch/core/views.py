@@ -8,9 +8,10 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.db.models import Q
+from .helpers import send_forget_password_email
+import uuid
 from .forms import CommentForm
-
-from .models import Profile, Portfolio, Skelbimas, Comment, Message, LikePortfolio, Likes, FollowersCount
+from .models import Profile, Portfolio, Skelbimas, Comment, Message, LikePortfolio, Likes, FollowersCount, Notification, Images
 
 
 # Create your views here.
@@ -533,6 +534,7 @@ def like_post(request):
         return redirect('/')
 
 
+
 def issaugoti(request):
     user = request.user
     profile = Profile.objects.get(user=user)
@@ -547,3 +549,102 @@ def issaugoti(request):
     }
 
     return render(request, 'issaugoti.html', context=context)
+
+def show_notifications(request):
+    user = request.user
+    notifications = Notification.objects.filter(user=user).order_by('-date')
+    Notification.objects.filter(user=user, is_seen=False).update(is_seen=True)
+
+    context = {
+        'notifications': notifications
+    }
+
+    return render(request, 'notifications.html', context=context)
+
+
+def delete_notifications(request, noti_id):
+    user = request.user
+    Notification.objects.filter(id=noti_id, user=user).delete()
+    return redirect("show-notifications")
+
+
+
+def count_notifications(request):
+    count_notifications = 0
+    if request.user.is_authenticated:
+        count_notifications = Notification.objects.filter(user=request.user, is_seen=False).count()
+
+    return {'count_notifications': count_notifications}
+
+def ChangePass(request, token):
+    context = {}
+    try:
+        profile_obj = Profile.objects.filter(forget_password_token=token).first()
+        context = {'user_id': profile_obj.user.id}
+        if request.method == 'POST':
+            new_password = request.POST.get('new_pass')
+            confirm_password = request.POST.get('new_pass2')
+            user_id = request.POST.get('user_id')
+
+            if user_id is None:
+                messages.success(request, "Vartotojas nerastas")
+                return redirect(f'change-password/{token}/')
+
+            if new_password != confirm_password:
+                messages.success(request, "Slaptažodžiai nesutampa")
+                return redirect(f'change-password/{token}/')
+
+            user_obj = User.objects.get(id=user_id)
+            user_obj.set_password(new_password)
+            user_obj.save()
+            return redirect('/signin/')
+
+
+
+    except Exception as e:
+        print(e)
+
+    return render(request, 'change-password.html', context)
+
+
+def ForgetPass(request):
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            if not User.objects.filter(username=username).first():
+                messages.info(request, 'User not found')
+                return redirect('/forget-password/')
+
+            user_obj = User.objects.get(username=username)
+            token = str(uuid.uuid4())
+            profile_obj = Profile.objects.get(user=user_obj)
+            profile_obj.forget_password_token = token
+            profile_obj.save()
+            send_forget_password_email(user_obj, token)
+            messages.info(request, 'Laiškas su nauju slaptažodžiu išsiųstas')
+            return redirect('/forget-password//')
+
+    except Exception as e:
+        print(e)
+    return render(request, 'forget-password.html')
+
+@login_required(login_url="signin")
+def addirasa(request, pk):
+    user_profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        user = request.user.username
+        image = request.FILES.get('img')
+        name = request.POST['pavadinimas']
+        about = request.POST['aprasymas']
+        type = request.POST['tipas']
+
+        new_post = Portfolio.objects.create(user_id=user_profile, cover=image, name=name, about=about, area=type)
+        new_post.save()
+        new_image = Images.objects.create(image=image, portfolio_id=new_post)
+        new_image.save()
+        return render(request, 'addirasa.html')
+
+    else:
+        return render(request, 'addirasa.html')
+
+    return render(request, 'addirasa.html')

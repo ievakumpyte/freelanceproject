@@ -29,4 +29,10 @@ urlpatterns = [
     path('<int:port_id>/favoriteportfolios', views.favorite_port, name='portfavorite'),
     path('darboskelbimai/<int:skelb_id>/favoriteskelbimai', views.favorite_skelb, name='skelbfavorite'),
     path('issaugoti', views.issaugoti, name='issaugoti'),
+    path('notifications', views.show_notifications, name='show-notifications'),
+    path('notifications/<int:noti_id>/delete', views.delete_notifications, name='delete-notification'),
+    path('forget-password', views.ForgetPass, name="forget_password"),
+    path('change-password/<token>/', views.ChangePass, name="change_password"),
+    path('manoprofilis/<str:pk>/addirasa', views.addirasa, name='addirasa'),
+
 ]
