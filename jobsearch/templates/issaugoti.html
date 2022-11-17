@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Išsaugoti įrašą{% endblock %}
+{% load static %}
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel=”stylesheet” type="text/css" href="{% static 'css/switch.css' %}">
+</head>
+{% block content %}
+
+
+<div class="container mt-4">
+        <h2 class="text-center my-2">Skelbimai</h2>
+
+    <table class="table table-hover mt-4">
+        <thead>
+        <tr class="table-secondary">
+            <th>Pavadinimas</th>
+            <th>Aprasymas</th>
+            <th>Atlyginimas</th>
+            <th>Ikelta</th>
+        </tr>
+        </thead>
+        {% for skelbimas in skelbimai%}
+        <tr>
+            <td><a href="{% url 'skelbimas' skelbimas.id %}">{{skelbimas.name}}</a></td>
+            <td>{{skelbimas.about}}</td>
+            <td>{{skelbimas.salary}}</td>
+            <td>{{skelbimas.upload_date}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+
+    <h2 class="text-center my-4">Portfolio</h2>
+
+
+
+
+        <div class="row my-2 align-items-center justify-content-center">
+            {% for port in portfolios %}
+            <div class="col-8 col-lg-4 col-xl-3 mb-3">
+                <a href="{% url 'irasas' port.id %}" class="text-dark" style="text-decoration:none;">
+                    <div class="card" style="width: 300px;">
+                        <img src="{{port.cover.url}}" class="card-img-top" alt="..." style="width: 300px; height:300px; object-fit:cover">
+                        <div class="card-body">
+                            <p class="card-text">{{port.name}}</p>
+                            <a href="/like-post?portfolio_id={{port.id}}" class="text-dark" style="text-decoration:none;"> <i class="bi bi-heart-fill me-1"></i>{{port.nr_of_likes}}</span></a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {%endfor%}
+        </div>
+
+</div>
+
+
+{% endblock %}

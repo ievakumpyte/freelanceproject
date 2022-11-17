@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Mano profilis{% endblock %}
+
+{% block content %}
+{%load static%}
+<section class="h-100 w-100 gradient-custom-2">
+    <div class="container-fluid py-5 h-100">
+
+        <div class="row d-flex justify-content-center align-items-center h-100 w-100 my-2">
+
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card text-center">
+                    <br>
+                    <h3>Aplikavimas</h3>
+
+                    <div class="container justify-content-center w-50">
+
+                        <div class="forms">
+                            <div class="inputs my-2"><span>El. paštas</span> <input class="form-control" name="message" type="text" required>
+                            </div>
+                            <div class="inputs my-2">
+                                <span>Žinutė</span> <textarea type="text" class="form-control" required></textarea>
+
+                            </div>
+                            <div class="inputs my-2"><span>Tipas</span>
+                                <input class="form-control" type="text" required>
+                                <button type="submit" class="btn btn-dark btn-lg btn-block my-5" style="width:90%">
+                                    Išsaugoti
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

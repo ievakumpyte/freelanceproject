@@ -1,0 +1,50 @@
+div.gallery img {
+
+  width: 52%;
+  height: auto;
+}
+
+div.desc {
+  padding: 55px;
+  text-align: center;
+}
+}
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
+
+* {
+  box-sizing: border-box;
+}
+
+.responsive {
+  margin-top: 65px;
+  padding: 10 10 10 10px;
+  float: left;
+  width: 24.99999%;
+  background-color:white
+}
+
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}

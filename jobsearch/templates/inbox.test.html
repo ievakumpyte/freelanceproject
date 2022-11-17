@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Mano profilis{% endblock %}
+
+{% block content %}
+{%load static%}
+
+<link rel=”stylesheet” href="{% static 'css/inbox_style.css' %}">
+<main class="content">
+    <div class="container p-0">
+
+		<h1 class="h3 mb-3">Messages</h1>
+
+		<div class="card">
+			<div class="row g-0">
+				<div class="col-12 col-lg-5 col-xl-3 border-right">
+
+					<div class="px-4 d-none d-md-block">
+						<form action="" method="post">
+						<div class="d-flex align-items-center">
+							<div class="flex-grow-1">
+								<input type="text" name="q" class="form-control my-3" placeholder="Search...">
+								<button type="submit" name="action" class="btn btn-primary">Send</button>
+								<a href="{% url 'usersearch' %}" class="button is-success">New message</a>
+							</div>
+
+						</div>
+						</form>
+					</div>
+					{% for message in messages %}
+
+					<a href="#" class="list-group-item list-group-item-action border-0">
+						<div class="badge bg-success float-right">5</div>
+						<div class="d-flex align-items-start">
+								<img src="{{ message.user.profile.profile_img.url }}">
+							<div class="flex-grow-1 ml-3">
+								{{ message.user.username }} {{ message.user.profile.surname }}
+								<div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+
+							</div>
+							<div class="content">
+									{% if message.unread %}
+									<p style="font-weight: bold; color: red;">
+									  <i class="bi bi-chat-left-fill">mark_chat_unread</i> {{ message.unread }}
+									</p>
+									{% endif %}
+								  </div>
+
+						</div>
+
+					</a>
+					<br>
+
+					{% endfor %}
+
+					<hr class="d-block d-lg-none mt-1 mb-0">
+				</div>
+				<div class="col-12 col-lg-7 col-xl-9">
+
+
+					<div class="position-relative">
+						<div class="chat-messages p-4">
+							{% for direct in directs %}
+							<div class="box">
+							  <article class="media">
+								<div class="media-left">
+								</div>
+								<div class="media-content">
+								  <div class="content">
+									<p>
+										<img src="{{ direct.sender.profile.profile_img.url }}" class="rounded-circle mr-1" width="40" height="40">
+									  <strong>{{ direct.sender.profile.name }} {{ direct.sender.profile.surname }}</strong> <small>@{{ direct.sender.username }}</small> <strong><small style="float:right">{{ direct.date|date:'N d G:i'}}</small></strong>
+<!--									  <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small>@{{ direct.sender.username }}</small> on: <strong><small>{{ direct.date|date:'N d G:i'}}</small></strong>-->
+									</p>
+									<p class="ms-7">{{ direct.body }}</p>
+								  </div>
+								</div>
+							  </article>
+							</div>
+							{% endfor %}
+
+
+							<div class="chat-message-right pb-4">
+								<div>
+									<img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+									<div class="text-muted small text-nowrap mt-2">2:33 am</div>
+								</div>
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+									<div class="font-weight-bold mb-1">You</div>
+									Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix.
+								</div>
+							</div>
+
+							<div class="chat-message-left pb-4">
+								<div>
+									<img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+									<div class="text-muted small text-nowrap mt-2">2:34 am</div>
+								</div>
+								<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+									<div class="font-weight-bold mb-1">Sharon Lessman</div>
+									Sit meis deleniti eu, pri vidit meliore docendi ut, an eum erat animal commodo.
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<form role="form" method="POST" action="{% url 'send_direct' %}">
+						  {% csrf_token %}
+						<input type="hidden" name="to_user" value="{{ active_direct }}">
+					<div class="flex-grow-0 py-3 px-4 border-top">
+						<div class="input-group">
+							<textarea class="textarea form-control" name="body" placeholder="Add a comment..."></textarea>
+							<button type="submit" name="action" class="btn btn-primary">Send</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

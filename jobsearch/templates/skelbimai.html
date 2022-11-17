@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Darbo skelbimai{% endblock %}
+
+{% block content %}
+{%load static%}
+
+
+
+<div class="container my-10 text-center">
+    <h2 class="mt-5">Darbo skelbimai</h2>
+    <div class="justify-content-center">
+<button type="button" class="btn btn-light"><a href="{% url 'pridetiskelbima' %}"><i class="bi bi-plus-square fs-1 text-dark"></i></a></button></div>
+    <div class="my-5">
+    <table class="table table-hover mt-2">
+        <thead>
+        <tr class="table-secondary">
+            <th>Pavadinimas</th>
+            <th>Aprasymas</th>
+            <th>Atlyginimas</th>
+            <th>Ikelta</th>
+        </tr>
+        </thead>
+        {% for skelbimas in skelbimai%}
+        <tr>
+            <td><a href="{% url 'skelbimas' skelbimas.id %}">{{skelbimas.name}}</a></td>
+            <td>{{skelbimas.about}}</td>
+            <td>{{skelbimas.salary}}</td>
+            <td>{{skelbimas.upload_date}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+        </div>
+    <br>
+</div>
+<div class="container puslapiai">
+    <nav aria-label="...">
+        {% if skelbimai.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+            {% for i in skelbimai.paginator.page_range %}
+            {% if skelbimai.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+
+{% endblock %}

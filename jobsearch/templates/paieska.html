@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %} Paieškos rezultatai {% endblock %}
+
+{% block content %}
+{%load static%}
+
+<section class="bg-gray mt-5">
+    <div class="container-lg">
+
+        <div class="row justify-content-end  ">
+
+            <div class="col-1 col-lg-1 col-xl-1 mt-1 justify-content-end">
+                <div class="dropdown d-inline ">
+                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
+                        Filtruoti
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <form>
+                <div class="col-8 col-lg-4 col-xl-3 mb-5 ">
+                    <div class="input-group rounded d-flex justify-content-end">
+                        <input type="search" name="paieska" class="form-control rounded" placeholder="Search"
+                               aria-label="Search" aria-describedby="search-addon"/>
+                        <span class="input-group-text border-0" id="search-addon">
+                <i class="bi bi-search"></i>
+              </span>
+                        <button type="submit"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row my-2 align-items-center justify-content-center">
+            {% for port in portfolio %}
+            <div class="col-8 col-lg-4 col-xl-3 mb-3">
+                <a href="{% url 'irasas' port.id %}">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{port.cover.url}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">{{port.name}}</p>
+                            <a href="/like-post?portfolio_id={{port.id}}"> <i class="bi bi-heart me-1"></i>14</span></a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {%endfor%}
+
+        </div>
+    </div>
+    </div>
+
+</section>
+
+<div class="container puslapiai">
+    <nav aria-label="...">
+        {% if portfolio.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+            {% for i in portfolio.paginator.page_range %}
+            {% if portfolio.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+
+<br>
+
+{% endblock %}

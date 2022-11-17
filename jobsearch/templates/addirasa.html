@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Pridėti įrašą{% endblock %}
+
+{% block content %}
+{%load static%}
+<section class="h-100 w-100 gradient-custom-2">
+    <div class="container-fluid py-5 h-100">
+
+        <div class="row d-flex justify-content-center align-items-center h-100 w-100 my-2">
+
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card text-center">
+                    <br>
+                    <h3>Pridėti portfolio įrašą</h3>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="container w-50">
+                            <input class="form-control" type="file" name="img" multiple required>
+                            <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" required>
+                            <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas"
+                                                             rows="4" cols="50" required> </textarea>
+                            <input type="text" class="form-control" name="tipas" required>
+                            <button type="submit" class="btn btn-dark form-control btn-lg btn-block my-2"
+                                    style="width:50%"><a class="text-light" href="'/">Atgal</a></button>
+                            <button type="submit" class="btn btn-dark form-control btn-lg btn-block my-2"
+                                    style="width:50%">Išsaugoti
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

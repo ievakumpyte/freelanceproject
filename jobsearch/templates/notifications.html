@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="container">
+
+    {% for notification in notifications %}
+
+    {% if notification.notification_type == 2 %}
+          <div class="notification">
+
+
+          <article>
+      <figure class=>
+        <p class="image is-64x64">
+                <img src="{{ notification.sender.profile.profile_img.url }}" alt="Placeholder image"> <a href="{% url 'delete-notification' notification.id %}" class="delete"><i class="bi bi-x-circle-fill"></i></a>
+        </p>
+      </figure>
+      <div>
+        <div class="content">
+            <strong>{{ notification.sender.profile.name }} {{ notification.sender.profile.surname }}</strong> <small>@{{ notification.sender.username }}</small>
+            <br>
+            Commented:
+          <p>{{ notification.text_preview }}</p>
+            <strong><small>{{ notification.date|naturaltime }}</small></strong>
+        </div>
+      </div>
+
+      <div>
+        <figure class="image is-128x128">
+          <img src="{{ notification.post.picture.url }}">
+      </figure>
+      </div>
+    </article>
+
+          </div>
+    {% endif %}
+
+
+    {% if notification.notification_type == 3 %}
+          <div class="notification">
+
+
+          <article>
+      <figure>
+        <p class="image is-64x64">
+                <img src="{{ notification.sender.profile.profile_img.url }}" alt="Placeholder image"> <a href="{% url 'delete-notification' notification.id %}" class="delete"><i class="bi bi-x-circle-fill"></i></a>
+        </p>
+      </figure>
+      <div>
+        <div>
+            <strong>{{ notification.sender.profile.name }} {{ notification.sender.profile.surname }}</strong> <small>@{{ notification.sender.username }}</small>
+            <br>
+            <p><i class="material-icons">person_add</i> Followed you!</p>
+            <strong><small>{{ notification.date|naturaltime }}</small></strong>
+        </div>
+      </div>
+
+    </article>
+
+          </div>
+    {% endif %}
+
+
+    <!-- FOR LIKE --->
+    {% if notification.notification_type == 1 %}
+          <div class="notification">
+
+          <article>
+      <figure>
+        <p class="image is-64x64">
+                <img src="{{ notification.sender.profile.profile_img.url }}" alt="Placeholder image"><a href="{% url 'delete-notification' notification.id %}" class="delete"><i class="bi bi-x-circle-fill"></i></a>
+        </p>
+      </figure>
+      <div >
+        <div>
+            <strong>{{ notification.sender.profile.name }} {{ notification.sender.profile.surname }}</strong> <small>@{{ notification.sender.username }}</small>
+            <br>
+            <p><i class="material-icons">thumb_up</i> Liked your post</p>
+            <strong><small>{{ notification.date|naturaltime }}</small></strong>
+        </div>
+      </div>
+
+      <div>
+        <figure class="image is-128x128">
+          <img src="{{ notification.post.picture.url }}">
+      </figure>
+      </div>
+    </article>
+
+          </div>
+    {% endif %}
+
+
+    {% endfor %}
+    <!-- FOR LIKES --->
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Redaguoti skelbima{% endblock %}
+
+{% block content %}
+{%load static%}
+<section class="h-100 w-100 gradient-custom-2">
+    <div class="card text-center">
+        <br>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container w-50">
+                <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" value="{{skelbimas.name}}">
+                <span>Sritis</span> <input type="text" class="form-control" name="sritis" value="{{skelbimas.area}}">
+                <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas" rows="4"
+                                                 cols="50"> {{skelbimas.about}} </textarea>
+                <span>Miestas</span> <input type="text" class="form-control" name="miestas" value="{{skelbimas.location}}">
+                <span>Tipas</span> <input type="text" class="form-control" name="tipas" value="{{skelbimas.type}}">
+                <span>Atlyginimas</span> <input type="text" class="form-control" name="atlyginimas" value="{{skelbimas.salary}}">
+                <span>El. paštas</span> <input type="email" class="form-control" name="email" value="{{skelbimas.email}}">
+                <button type="button" class="btn btn-dark btn-lg btn-block my-2" style="width:50%"><a class="text-light" href="{% url 'manoskelbimai' user %}">Atgal</a>
+                </button>
+                <button type="submit" class="btn btn-dark btn-lg btn-block mb-2 " style="width:50%">Atnaujinti</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

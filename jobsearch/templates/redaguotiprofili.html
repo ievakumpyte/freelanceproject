@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Mano profilis{% endblock %}
+
+{% block content %}
+{%load static%}
+<section class="h-100 w-100 gradient-custom-2">
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100 w-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            <img src="{{user_profile.profile_img.url}}"
+                                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                 style="width: 150px; z-index: 1">
+
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            <h5>{{user_profile.name}} {{user_profile.surname}}</h5>
+                            <p>{{user_profile.location}}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="card text-center">
+                            <br>
+                            <h3>Pridėti portfolio įrašą</h3>
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <img width="100" height="100" src="{{user_profile.profile_img.url}}" style="object-fit:cover;" class="my-5">
+                                <input type="file" id="avatar" name="image">
+
+                                <div class="container w-50">
+                                    <input class="form-control" type="file" name="image" value="">
+                                    <span>Vardas</span> <input type="text" class="form-control" name="vardas"
+                                                               value="{{user_profile.name}}">
+                                    <span>Pavardė</span> <input type="text" class="form-control" name="pavarde"
+                                                                value="{{user_profile.surname}}">
+                                    <span>Aprašymas</span> <textarea id="aprasymas" class="form-control"
+                                                                     name="aprasymas" rows="4" cols="50">{{user_profile.about}} </textarea>
+                                    <span>Miestas</span> <input type="text" class="form-control" name="miestas"
+                                                                value="{{user_profile.location}}">
+                                    <label>Gimimo data</label>
+                                    <input id="gimdata" name="gimdata" class="form-control" type="date" value="{{user_profile.birth}}"/>
+                                    <!--                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipas">-->
+                                    <!--                              <option selected>Pasirinkite iš sąrašo</option>-->
+                                    <!--                              <option value="1">UI/UX</option>-->
+                                    <!--                              <option value="2">Logotipų dizainas</option>-->
+                                    <!--                              <option value="2">Pakuočių dizainas</option>-->
+                                    <!--                              <option value="3">Svetainės</option>-->
+                                    <!--                              <option value="3">Žaidimai</option>-->
+                                    <!--                              <option value="3">Backend</option>-->
+                                    <!--                              <option value="3">Frontend</option>-->
+                                    <!--                        </select>-->
+                                    <!--                          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="lytis">-->
+                                    <!--                            <option selected>Pasirinkite iš sąrašo</option>-->
+                                    <!--                            <option value="vyras">Vyras</option>-->
+                                    <!--                            <option value="moteris">Moteris</option>-->
+
+                                    <!--                          </select>-->
+                                    <!--                            <span>Pavardė</span> <input type="text" class="form-control"  name="patirtis" readonly value="Patirtis">-->
+                                    <!--                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="patirtis_m">-->
+                                    <!--                            <option selected>Pasirinkite iš sąrašo</option>-->
+                                    <!--                            <option value="maz_metu"> <1></option>-->
+                                    <!--                            <option value="vienas_du"> 1-2 m. </option>-->
+                                    <!--                                <option value="du_trys"> 2-3 m. </option>-->
+                                    <!--                                <option value="virs_penkiu"> 5+ m. </option>-->
+
+                                    <!--                          </select>-->
+                                    <!--                          <input type="text" class="form-control" readonly value="patirtis">-->
+                                    <button type="button" class="btn btn-dark btn-lg btn-block my-2" style="width:50%">
+                                        <a href="/" style="text-decoration:none; color:white;">Atgal</a></button>
+                                    <a href="{% url 'manoprofilis' user_profile.id %}">
+                                    <button type="submit" class="btn btn-dark btn-lg btn-block mb-5" style="width:50%">
+                                        Išsaugoti
+                                    </button>
+                                        </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

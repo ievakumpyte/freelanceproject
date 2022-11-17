@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Mano profilis{% endblock %}
+
+{% block content %}
+{%load static%}
+
+<link rel=”stylesheet” href="{% static 'css/inbox_style.css' %}">
+<main class="content">
+    <div class="container p-0">
+
+		<h1 class="h3 my-3 text-center">Žinutės</h1>
+
+		<div class="card">
+			<div class="row g-0">
+				<div class="col-12 col-lg-5 col-xl-3 border-right">
+
+					<div class="px-4 d-none d-md-block " >
+
+						<div class="d-flex align-items-center">
+							<div class="d-inline p-2">
+								<input type="text" name="q" class="form-control my-3" placeholder="Search...">
+
+							</div>
+							<div class="d-inline p-2">
+
+								<button type="submit" name="action" class="btn btn-primary"><a href="{% url 'usersearch' %}" class="button is-success text-light"><span><i class="bi bi-send"></i></span></a></button>
+							</div>
+
+						</div>
+
+					</div>
+					{% for message in messages %}
+	<a class="{% if active_direct == message.user.username %}nav-link active{% endif %}" href="{% url 'directs' message.user.username %}">
+
+
+						<div class="d-flex align-items-start ms-4 mt-4 bg-light p-2">
+								<img src="{{ message.user.profile.profile_img.url }} " class="rounded-circle mr-1" width="40" height="40">
+							<div class="flex-grow-1 ml-3 ms-3">
+								 {{ message.user.profile.name }}{{ message.user.profile.surname }}
+								<div class="small">@{{ message.user.username }} </span> </div>
+
+
+							</div>
+							<div class="content">
+									{% if message.unread %}
+									<p style="font-weight: bold; color: red;">
+									  <i class="bi bi-chat-left-fill"></i> {{ message.unread }}
+									</p>
+									{% endif %}
+								  </div>
+
+						</div>
+
+					</a>
+					<br>
+
+					{% endfor %}
+
+					<hr class="d-block d-lg-none mt-1 mb-0">
+				</div>
+				<div class="col-12 col-lg-7 col-xl-9 ">
+
+
+					<div class="position-relative overflow-auto  " style="height: 500px;">
+						<div class="chat-messages p-4">
+							{% for direct in directs %}
+							<div class="box p-3 mb-2 bg-light text-dark" >
+							  <article class="media">
+								<div class="media-left">
+								</div>
+								<div class="media-content">
+								  <div class="content" >
+									  <div >
+									<p>
+										<img src="{{ direct.sender.profile.profile_img.url }}" class="rounded-circle mr-1" width="40" height="40">
+									  <strong>{{ direct.sender.profile.name }} {{ direct.sender.profile.surname }}</strong> <small>@{{ direct.sender.username }}</small> <strong><small style="float:right">{{ direct.date|date:'N d G:i'}}</small></strong>
+<!--									  <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small>@{{ direct.sender.username }}</small> on: <strong><small>{{ direct.date|date:'N d G:i'}}</small></strong>-->
+									</p>
+										  </div>
+									  <div >
+									<p class="ms-7">{{ direct.body }}</p>
+										  </div>
+								  </div>
+								</div>
+							  </article>
+							</div>
+							{% endfor %}
+
+
+
+
+
+						</div>
+					</div>
+
+					<form role="form" method="POST" action="{% url 'send_direct' %}">
+						  {% csrf_token %}
+						<input type="hidden" name="to_user" value="{{ active_direct }}">
+					<div class="flex-grow-0 py-3 px-4 border-top">
+						<div class="input-group">
+							<textarea class="textarea form-control" name="body" placeholder="Add a comment..."></textarea>
+							<button type="submit" name="action" class="btn btn-primary">Send</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

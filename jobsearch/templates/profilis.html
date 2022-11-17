@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Profilis{% endblock %}
+
+{% block content %}
+{%load static%}
+<section class="h-100 w-100 gradient-custom-2">
+  <div class="container-fluid py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100 w-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+              <form action="/follow" method="POST">
+                    {% csrf_token %}
+
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+
+              <img src="{{user_profile.profile_img.url}}"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="width: 150px; z-index: 1">
+
+
+                    <input type="hidden" value="{{user}}" name="follower">
+                    <input type="hidden" value="{{user_object}}" name="user">
+
+              {% if user_object.id == user.id %}
+                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                style="z-index: 1;">
+                    <a href="{% url 'redaguotiprofili' user_object.id %}" style="text-decoration:none; color:gray">Redaguoti profilį</a>
+                </button>
+                {% else%}
+                <button type="submit" class="btn btn-outline-dark " data-mdb-ripple-color="dark"
+                style="z-index: 1;">
+                    {{button_text}}
+              </button>
+
+                {% endif %}
+
+            </div>
+                  </form>
+            <div class="ms-3" style="margin-top: 130px;">
+              <h5>{{user_profile.name}} {{user_profile.surname}}</h5>
+              <p>Kaunas</p>
+            </div>
+          </div>
+          <div class="p-4 text-black" style="background-color: #f8f9fa;">
+            <div class="d-flex justify-content-end text-center py-1">
+              <div>
+                <p class="mb-1 h5">{{user_posts_length}}</p>
+                <p class="small text-muted mb-0">Įrašai</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">{{user_followers}}</p>
+                <p class="small text-muted mb-0">Sekėjai</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">{{user_following}}</p>
+                <p class="small text-muted mb-0">Seka</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4 text-black">
+              {% if user_profile.about %}
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1">Apie</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+
+                <p>{{user_profile.about}}</p>
+
+              </div>
+            </div>
+              {% endif %}
+              <br>
+              <br>
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-10">
+              <p class="lead fw-normal mb-0">Naujausi įrašai</p>
+              <p class="mb-0"><a href="#!" class="text-muted">Rodyti visus</a></p>
+            </div>
+
+              <div class="container">
+                        <div class="row col-md-12">
+                            {% for post in user_posts.all%}
+                            <div class="col-md-4 mt-2">
+                                    <a href="{% url 'irasas' post.id %}"><img src="{{post.cover.url}}" style="height:300px; width:300px; object-fit:cover;"
+                                                                              alt="{{post.id}}" class="w-100 rounded-3">
+                            </a></div>
+                            {%endfor%}
+
+                        </div>
+                            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+{% endblock %}

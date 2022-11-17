@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Mano skelbimai{% endblock %}
+
+{% block content %}
+{%load static%}
+
+<div class="container my-5 text-center">
+    <h2>Mano skelbimai</h2>
+    <br>
+    <table class="table table-hover">
+
+        <tr>
+            <th>Pavadinimas</th>
+            <th>Aprasymas</th>
+            <th>Atlyginimas</th>
+            <th>Ikelta</th>
+
+        </tr>
+        {% for skelb in user_skelbimai.all%}
+        <tr>
+            <td>{{skelb.name}}</td>
+            <td>{{skelb.about}}</td>
+            <td>{{skelb.salary}}</td>
+            <td>{{skelb.upload_date}}</td>
+            <td>
+                <a href="{% url 'delete_skelbimas' skelb.id %}">
+                <button type="button" class="btn btn-outline-dark w-100" data-mdb-ripple-color="dark"
+                        style="z-index: 1;">
+                    Trinti
+                </button></a>
+            </td>
+            <td><a href="{% url 'edit_skelbimas' skelb.id %}">
+                <button type="button" class="btn btn-outline-dark w-100" data-mdb-ripple-color="dark"
+                        style="z-index: 1;">
+                    Redaguoti
+                </button></a>
+            </td>
+        </tr>
+        {%endfor%}
+
+
+    </table>
+    <br>
+</div>
+{% endblock %}
