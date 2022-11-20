@@ -23,7 +23,7 @@
         </thead>
         {% for skelbimas in skelbimai%}
         <tr>
-            <td><a href="{% url 'skelbimas' skelbimas.id %}">{{skelbimas.name}}</a></td>
+            <td><a href="{% url 'skelbimas' skelbimas.id %}" class="text-secondary" style="text-decoration:none;">{{skelbimas.name}}</a></td>
             <td>{{skelbimas.about}}</td>
             <td>{{skelbimas.salary}}</td>
             <td>{{skelbimas.upload_date}}</td>

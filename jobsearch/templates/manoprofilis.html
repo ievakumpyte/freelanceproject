@@ -13,9 +13,11 @@
                         <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                             <img src="{{user_profile.profile_img.url}}"
                                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                                 style="object-fit:cover; height:500px;">
+                                 style="object-fit:cover;">
+
                             <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                     style="z-index: 1;">
+
                                 <a href="{% url 'redaguotiprofili' user_object.id %}" class="text-dark" style="text-decoration:none">Redaguoti profilį</a>
 
                             </button>
@@ -43,15 +45,17 @@
                         </div>
                     </div>
                     <div class="card-body p-4 text-black">
-                        {% if user_profile.about %}
+                        {% if user_profile.about%}
                         <div class="mb-5">
                             <p class="lead fw-normal mb-1">Apie</p>
-                            <div class="p-4" style="background-color: #f8f9fa;">
+                            <div class="p-4">
 
                                 <p>{{user_profile.about}}</p>
 
                             </div>
                         </div>
+                        {%else%}
+                        <p></p>
                         {% endif %}
                         <br>
                         <br>

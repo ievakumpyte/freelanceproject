@@ -30,11 +30,9 @@
   <article class="media">
     <div class="media-left">
       <figure class="image is-64x64">
-          {% if user.profile.picture %}
-            <img src="{{ user.profile.picture.url }}" alt="Placeholder image">
-          {% else %}
-            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-          {% endif %}
+            <img src="{{ user.profile.profile_img.url }}" width="40"
+                             height="40" class="rounded-circle mr-3" style="object-fit:cover;">
+
       </figure>
     </div>
     <div class="media-content">

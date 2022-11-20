@@ -15,8 +15,6 @@
                 <form action="/search_portfolio" method="Post">
                     {% csrf_token %}
 
-
-
                 <div class="row">
 
                     <div class="col-6">
@@ -44,16 +42,15 @@
             </div>
 
             <div class="row my-2 align-items-center justify-content-center my-5">
-                {% for port in portfolio %}
+                {% for port in qs %}
                 <div class="col-8 col-lg-4 col-xl-3 mb-3">
-
+                    <a href="{% url 'irasas' port.id %}" class="text-dark" style="text-decoration:none;">
                         <div class="card" style="width: 300px;">
-                            <a href="{% url 'profilis' port.user_id.user.username %}" style="text-decoration:none; color:black"><p class="text-center mt-2"><small>{{port.user_id.name}} {{port.user_id.surname}}</small></p></a>
-                            <a href="{% url 'irasas' port.id %}" class="text-dark" style="text-decoration:none;">
                             <img src="{{port.cover.url}}" class="card-img-top" alt="..."
                                  style="width:300px; height:300px; object-fit: cover;">
                             <div class="card-body d-flex justify-content-between">
                                 <p class="card-text">{{port.name}}</p>
+
                                 <a href="/like-post?portfolio_id={{port.id}}" class="text-dark"
                                    style="text-decoration:none;"> <i
                                         class="bi bi-heart-fill me-1"></i>{{port.nr_of_likes}}</span></a>
@@ -64,7 +61,7 @@
                 {%endfor%}
             </div>
 
-
+            
         </div>
     </div>
 

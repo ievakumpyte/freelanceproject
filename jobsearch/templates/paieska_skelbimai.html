@@ -45,19 +45,17 @@
     <table class="table table-hover mt-2">
         <thead>
         <tr class="table-secondary">
-            <th></th>
             <th>Pavadinimas</th>
             <th>Aprasymas</th>
             <th>Atlyginimas</th>
             <th>Ikelta</th>
         </tr>
         </thead>
-        {% for skelbimas in skelbimai%}
+        {% for skelbimas in qs%}
         <tr>
-            <td><img src="{% static 'images/no-image.png'%}" width="60" height="60" class=" me-3"> <small>imones pav</small></td>
             <td><a href="{% url 'skelbimas' skelbimas.id %}" class="text-secondary" style="text-decoration:none;">{{skelbimas.name}}</a></td>
             <td>{{skelbimas.about}}</td>
-            <td>{{skelbimas.salary}} €</td>
+            <td>{{skelbimas.salary}}</td>
             <td>{{skelbimas.upload_date}}</td>
         </tr>
         {% endfor %}

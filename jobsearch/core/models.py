@@ -109,7 +109,7 @@ class Message(models.Model):
 
     def get_messages(user):
         users = []
-        messages = Message.objects.filter(user=user).values('recipient').annotate(last=Max('date')).order_by('last')
+        messages = Message.objects.filter(user=user).values('recipient').annotate(last=Max('date')).order_by('-last')
         for message in messages:
             users.append({
                 'user': User.objects.get(pk=message['recipient']),
@@ -127,6 +127,7 @@ class FollowersCount(models.Model):
 class LikePortfolio(models.Model):
     portfolio_id = models.CharField(max_length=500)
     username = models.CharField(max_length=100)
+
 
     def __str__(self):
         return f'{self.id} {self.username}'

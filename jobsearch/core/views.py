@@ -118,13 +118,15 @@ def irasas(request, port_id):
     else:
         form = CommentForm()
 
-    # portfolio_images = Images.objects.filter(portfolio_id=single_portfolio)
+    portfolio_images = Images.objects.filter(portfolio_id=single_portfolio)
     context = {
         'single_portfolio': single_portfolio,
+        'portfolio_images': portfolio_images,
         'comments': comments,
         'favorited': favorited,
         'form': form,
         'profilis': profilis,
+        'user': user,
     }
 
     return render(request, 'irasas.html', context=context)
@@ -259,6 +261,7 @@ def skelbimas(request, skelbimas_id):
         'single_skelbimas': single_skelbimas,
         'favorited': favorited,
         'profilis':profilis,
+        'user':user,
 
     }
 
@@ -324,6 +327,10 @@ def delete_skelbimas(request, id):
     skelbimas.delete()
     return redirect('/manoskelbimai/' + str(user))
 
+# def del_comment(request, id):
+#     comment = Comment.objects.get(id=id)
+#     comment.delete()
+#     return redirect('/' + str(comment.porfolio.id))
 
 def edit_skelbimas(request, id):
     user = request.user.id
@@ -431,6 +438,7 @@ def send_direct(request):
 
     if request.method == 'POST':
         to_user = User.objects.get(username=to_user_username)
+
         Message.send_message(from_user, to_user, body)
         return redirect('inbox')
     else:
@@ -452,6 +460,51 @@ def user_search(request):
         }
 
     return render(request, 'search_user.html', context=context)
+
+def search_portfolio(request):
+    portfolios = Portfolio.objects.all()
+    naujas = None
+    paieska = request.POST["paieska"]
+    filtras = request.POST["filtras"]
+
+    if paieska != '' and paieska is not None:
+        naujas = portfolios.filter(Q(name__icontains=paieska) | Q(user_id__user__first_name__icontains=paieska) | Q(user_id__user__last_name__icontains=paieska) | Q(user_id__user__username__icontains=paieska))
+
+    elif filtras != '' and filtras is not None:
+        naujas = portfolios.filter(area=filtras)
+
+    else:
+       naujas = Portfolio.objects.all()
+
+
+    context = {
+        'qs': naujas
+    }
+
+    return render(request, 'portfolio_paieska.html', context=context)
+
+def search_skelbimai(request):
+    skelbimai = Skelbimas.objects.all()
+    naujas = None
+    paieska = request.POST["paieska"]
+    filtras = request.POST["filtras"]
+
+    if paieska != '' and paieska is not None:
+        naujas = skelbimai.filter(Q(name__icontains=paieska) | Q(user_id__user__first_name__icontains=paieska) | Q(user_id__user__last_name__icontains=paieska) | Q(user_id__user__username__icontains=paieska))
+
+    elif filtras != '' and filtras is not None:
+        naujas = skelbimai.filter(area=filtras)
+
+    else:
+       naujas = skelbimai.objects.all()
+
+
+    context = {
+        'qs': naujas
+    }
+
+    return render(request, 'paieska_skelbimai.html', context=context)
+
 
 @login_required(login_url="signin")
 def favorite_port(request, port_id):
@@ -563,7 +616,8 @@ def issaugoti(request):
 
 def show_notifications(request):
     user = request.user
-    notifications = Notification.objects.filter(user=user).order_by('-date')
+    if Notification.sender != user:
+        notifications = Notification.objects.filter(user=user).order_by('-date')
     Notification.objects.filter(user=user, is_seen=False).update(is_seen=True)
 
     context = {

@@ -16,22 +16,25 @@
 				<div class="col-12 col-lg-5 col-xl-3 border-right">
 
 					<div class="px-4 d-none d-md-block " >
-
+						<form action="/new" method="POST">
+								{% csrf_token %}
 						<div class="d-flex align-items-center">
+
 							<div class="d-inline p-2">
 								<input type="text" name="q" class="form-control my-3" placeholder="Search...">
 
 							</div>
 							<div class="d-inline p-2">
 
-								<button type="submit" name="action" class="btn btn-primary"><a href="{% url 'usersearch' %}" class="button is-success text-light"><span><i class="bi bi-send"></i></span></a></button>
+								<button type="submit" name="action" class="btn btn-primary"><span><i class="bi bi-send"></i></span></button>
 							</div>
 
 						</div>
-
+					</form>
 					</div>
 					{% for message in messages %}
-	<a class="{% if active_direct == message.user.username %}nav-link active{% endif %}" href="{% url 'directs' message.user.username %}">
+				<div style="{% if active_direct == message.user.username %} background-color:gray; {% endif %}">
+	<a  href="{% url 'directs' message.user.username %}">
 
 
 						<div class="d-flex align-items-start ms-4 mt-4 bg-light p-2">
@@ -42,6 +45,7 @@
 
 
 							</div>
+
 							<div class="content">
 									{% if message.unread %}
 									<p style="font-weight: bold; color: red;">
@@ -53,6 +57,7 @@
 						</div>
 
 					</a>
+					</div>
 					<br>
 
 					{% endfor %}
@@ -73,8 +78,8 @@
 								  <div class="content" >
 									  <div >
 									<p>
-										<img src="{{ direct.sender.profile.profile_img.url }}" class="rounded-circle mr-1" width="40" height="40">
-									  <strong>{{ direct.sender.profile.name }} {{ direct.sender.profile.surname }}</strong> <small>@{{ direct.sender.username }}</small> <strong><small style="float:right">{{ direct.date|date:'N d G:i'}}</small></strong>
+										<a href="{% url 'profilis' direct.sender %}" style="text-decoration:none; color:black"><img src="{{ direct.sender.profile.profile_img.url }}" class="rounded-circle mr-1" width="40" height="40">
+											<strong>{{ direct.sender.profile.name }} {{ direct.sender.profile.surname }}</strong> <small>@{{ direct.sender.username }}</small> <strong><small style="float:right">{{ direct.date|date:'N d G:i'}}</small></strong></a>
 <!--									  <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small>@{{ direct.sender.username }}</small> on: <strong><small>{{ direct.date|date:'N d G:i'}}</small></strong>-->
 									</p>
 										  </div>
