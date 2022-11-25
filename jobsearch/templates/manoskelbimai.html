@@ -4,6 +4,11 @@
 
 {% block content %}
 {%load static%}
+<style>
+    tr[data-href] {
+        cursor: pointer;
+    }
+</style>
 
 <div class="container my-5 text-center">
     <h2>Mano skelbimai</h2>
@@ -12,15 +17,14 @@
 
         <tr>
             <th>Pavadinimas</th>
-            <th>Aprasymas</th>
+
             <th>Atlyginimas</th>
             <th>Ikelta</th>
 
         </tr>
         {% for skelb in user_skelbimai.all%}
-        <tr>
+        <tr data-href="{% url 'skelbimas' skelb.id %}">
             <td>{{skelb.name}}</td>
-            <td>{{skelb.about}}</td>
             <td>{{skelb.salary}}</td>
             <td>{{skelb.upload_date}}</td>
             <td>
@@ -43,4 +47,19 @@
     </table>
     <br>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded",  () => {
+        const rows = document.querySelectorAll("tr[data-href]");
+
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+
+            });
+        });
+
+
+    });
+</script>
 {% endblock %}

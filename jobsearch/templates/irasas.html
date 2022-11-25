@@ -16,6 +16,13 @@
                         <a href=" {% url 'profilis' single_portfolio.user_id.user %}" class="text-dark" style="text-decoration:none"><h5 class=" text-center"><img src="{{profilis.profile_img.url}}" width="60"
                              height="60" class="rounded-circle mr-3" style="object-fit:cover;"> {{single_portfolio.user_id.name}} {{single_portfolio.user_id.surname}}</h5></a>
                         <hr>
+                        {% if single_portfolio.user_id.user == user%}
+                        <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger" style="width:60px; height:40px"><a
+                                href="{% url 'delete_irasas' single_portfolio.id %}"
+                                style="text-decoration:none; color:white;"><i class="bi bi-trash" style="font-size:1.2em"></i> </a></button>
+                        </div>
+                        {%endif%}
                         <div class="ms-5 my-4">
                         <h5 class="text-center"> {{single_portfolio.name}}</h5>
 

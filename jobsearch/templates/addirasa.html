@@ -13,16 +13,24 @@
                 <div class="card text-center">
                     <br>
                     <h3>Pridėti portfolio įrašą</h3>
-                    <form action="" method="POST">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="container w-50">
                             <input class="form-control" type="file" name="img" multiple required>
                             <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" required>
                             <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas"
                                                              rows="4" cols="50" required> </textarea>
-                            <input type="text" class="form-control" name="tipas" required>
+
+                            <select name="tipas" class="form-control rounded form-select mb-3 " required>
+                                <option value="" selected>Pasirinkite sritį:</option>
+                                <option value="Grafinis dizainas">Grafinis dizainas</option>
+                                <option value="UI/UX">UI/UX</option>
+                                <option value="Svetainės">Svetainės</option>
+                                <option value="Žaidimai">Žaidimai</option>
+
+                            </select>
                             <button type="submit" class="btn btn-dark form-control btn-lg btn-block my-2"
-                                    style="width:50%"><a class="text-light" href="'/">Atgal</a></button>
+                                    style="width:50%"><a class="text-light" href="{% url 'manoprofilis' request.user.id%}">Atgal</a></button>
                             <button type="submit" class="btn btn-dark form-control btn-lg btn-block my-2"
                                     style="width:50%">Išsaugoti
                             </button>

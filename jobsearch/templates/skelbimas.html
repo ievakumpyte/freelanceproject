@@ -4,66 +4,60 @@
 
 {% block content %}
 {%load static%}
-<div class="container" style="width: 60%">
+<div class="container">
     <br>
-    <a href=" {% url 'profilis' profilis.user %}" class="text-dark" style="text-decoration:none"><h5 class=" text-center"><img src="{{profilis.profile_img.url}}" width="60"
-         height="60" class="rounded-circle mr-3" style="object-fit:cover;"> {{profilis.name}} {{profilis.surname}}</h5></a>
+    <a href=" {% url 'profilis' profilis.user %}" class="text-dark" style="text-decoration:none"><h5
+            class=" text-center"><img src="{{profilis.profile_img.url}}" width="60"
+                                      height="60" class="rounded-circle mr-3" style="object-fit:cover;">
+        {{profilis.name}} {{profilis.surname}}</h5></a>
     <hr>
     <h3 class="text-center">{{single_skelbimas.name}} </h3>{% if favorited == False%}
-<div class="d-flex justify-content-end" >
-    <a href="{% url 'skelbfavorite' single_skelbimas.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-</svg></a><span>Save</span>
-</div>
-{% else %}
-<div class="d-flex justify-content-end">
-    <a href="{% url 'skelbfavorite' single_skelbimas.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-  <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
-</svg></a><span>Save</span>
-</div>
-{%endif%}
-    <img src="{% static 'images/no-image.png'%}" width="150" height="150" class="center me-3" style="text-align:center;">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'skelbfavorite' single_skelbimas.id %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark"
+                 viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+            </svg>
+        </a><span>Save</span>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'skelbfavorite' single_skelbimas.id %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                 class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+            </svg>
+        </a><span>Save</span>
+    </div>
+    {%endif%}
+
+    <img src="{{single_skelbimas.logo.url}}" width="150" height="150" class="center me-3"
+         style="text-align:center;">
     <h5>Darbo pobūdis</h5>
-    <p>{{single_skelbimas.about}}</p>
+    <div style="word-wrap: break-word;
+   width: 1200px;">
+    <p>{{single_skelbimas.about}}</p></div>
     <br>
-    <h5>Reikalavimai darbuotojui</h5>
-
-        <ul>
-            <li>List1</li>
-            <li>List1</li>
-            <li>List1</li>
-            <li>List1</li>
-            <li>List1</li>
 
 
-        </ul>
-
-    <h5>Įmonė siūlo</h5>
-
-        <ul>
-            <li>List1</li>
-            <li>List1</li>
-            <li>List1</li>
-            <li>List1</li>
-            <li>List1</li>
-
-
-        </ul>
 
     <br>
     <h5>Atlyginimas</h5>
     <p> {{single_skelbimas.salary}}</p>
 
 
-    {% if profilis.user != user %}
-    <button type="button" class="btn btn-dark"> <a href="{% url 'aplikavimas' single_skelbimas.id%}">Aplikuoti </a></button>
-    {%endif%}
-<br>
+    <br>
     <br>
 
+{% include 'aplikuoti.html' %}
 
+    <div class="d-flex justify-content-center">
+        {% if profilis.user != user %}
+        <button type="button" class="btn btn-dark" style="width:20%;" data-bs-toggle="modal" data-bs-target="#aplikuotiModal"><a
 
+                style="text-decoration:none; color:white;">Aplikuoti </a></button>
+        {%endif%}
+    </div>
+    <br>
 </div>
-
-<br>
 {% endblock %}

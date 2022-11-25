@@ -8,6 +8,11 @@
 </head>
 {% block content %}
 
+<style>
+    tr[data-href] {
+        cursor: pointer;
+    }
+</style>
 
 <div class="container mt-4">
         <h2 class="text-center my-2">Skelbimai</h2>
@@ -22,8 +27,8 @@
         </tr>
         </thead>
         {% for skelbimas in skelbimai%}
-        <tr>
-            <td><a href="{% url 'skelbimas' skelbimas.id %}" class="text-secondary" style="text-decoration:none;">{{skelbimas.name}}</a></td>
+        <tr data-href="{% url 'skelbimas' skelbimas.id %}">
+            <td>{{skelbimas.name}}</td>
             <td>{{skelbimas.about}}</td>
             <td>{{skelbimas.salary}}</td>
             <td>{{skelbimas.upload_date}}</td>
@@ -55,6 +60,19 @@
         </div>
 
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded",  () => {
+        const rows = document.querySelectorAll("tr[data-href]");
 
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+
+            });
+        });
+
+
+    });
+</script>
 
 {% endblock %}

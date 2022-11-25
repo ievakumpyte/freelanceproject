@@ -13,8 +13,6 @@ class Profile(models.Model):
     about = models.TextField("About", max_length=1000, null=True, blank=True)
     profile_img = models.ImageField("Profile image",upload_to='profile_images', default='blank-profile-photo.jpeg')
     location = models.CharField("Location",max_length=100,null=True, blank=True)
-    birth = models.DateField("Birth",null=True,blank=True)
-    gender = models.CharField("Gender",max_length=100,null=True, blank=True)
     favorites_port = models.ManyToManyField("Portfolio")
     favorites_skelb = models.ManyToManyField("Skelbimas")
 
@@ -43,6 +41,7 @@ class Images(models.Model):
     portfolio_id = models.ForeignKey("Portfolio", on_delete=models.CASCADE)
 
 class Skelbimas(models.Model):
+    logo = models.ImageField("Logo", default='no-image.png', upload_to='skelbimai', blank=True)
     name = models.CharField("Name",max_length=100, null=True,blank=True)
     about = models.CharField("About",max_length=100,null=True, blank=True)
     upload_date = models.DateField("Upload date",null=True,auto_now=True)
@@ -77,8 +76,32 @@ class Comment(models.Model):
         porfolio = comment.porfolio
         sender = comment.user
 
-        notify = Notification.objects.filter(portfolio=porfolio,user=porfolio.user_id, sender=sender, notification_type=2)
+        notify = Notification.objects.filter(portfolio=porfolio,user=porfolio.user_id.user, sender=sender, notification_type=2)
         notify.delete()
+
+class Review(models.Model):
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    date= models.DateTimeField(auto_now_add=True)
+
+    # def user_comment_port(sender, instance, *args, **kwargs):
+    #     comment = instance
+    #     porfolio = comment.porfolio
+    #     text_preview = comment.body[:90]
+    #     sender = comment.user
+    #
+    #
+    #     notify = Notification(portfolio=porfolio, sender=sender,user=porfolio.user_id.user,text_preview=text_preview, notification_type=2)
+    #     notify.save()
+    #
+    # def user_del_comment_port(sender, instance, *args, **kwargs):
+    #     comment = instance
+    #     porfolio = comment.porfolio
+    #     sender = comment.user
+    #
+    #     notify = Notification.objects.filter(portfolio=porfolio,user=porfolio.user_id.user, sender=sender, notification_type=2)
+    #     notify.delete()
 
 
 class Message(models.Model):

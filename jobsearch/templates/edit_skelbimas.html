@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Redaguoti skelbima{% endblock %}
+{% block title %}Redaguoti skelbimą{% endblock %}
 
 {% block content %}
 {%load static%}
+<div class="container-fluid my-5 w-50">
 <section class="h-100 w-100 gradient-custom-2">
     <div class="card text-center">
         <br>
-
+        <h4>Redaguoti skelbimą</h4>
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="container w-50">
+                <span>Logotipas</span>
+                <input class="form-control my-1" type="file" name="logo">
                 <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" value="{{skelbimas.name}}">
                 <span>Sritis</span> <input type="text" class="form-control" name="sritis" value="{{skelbimas.area}}">
                 <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas" rows="4"
@@ -19,12 +22,13 @@
                 <span>Tipas</span> <input type="text" class="form-control" name="tipas" value="{{skelbimas.type}}">
                 <span>Atlyginimas</span> <input type="text" class="form-control" name="atlyginimas" value="{{skelbimas.salary}}">
                 <span>El. paštas</span> <input type="email" class="form-control" name="email" value="{{skelbimas.email}}">
-                <button type="button" class="btn btn-dark btn-lg btn-block my-2" style="width:50%"><a class="text-light" href="{% url 'manoskelbimai' user %}">Atgal</a>
+                <button type="button" class="btn btn-dark btn-lg btn-block my-2" style="width:50%"><a class="text-light" href="{% url 'manoskelbimai' user %}" style="text-decoration:None;">Atgal</a>
                 </button>
                 <button type="submit" class="btn btn-dark btn-lg btn-block mb-2 " style="width:50%">Atnaujinti</button>
             </div>
         </form>
     </div>
 </section>
+    </div>
 
 {% endblock %}

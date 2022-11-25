@@ -10,14 +10,12 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedire
 from django.db.models import Q
 from .helpers import send_forget_password_email
 import uuid
-from .forms import CommentForm
-from .models import Profile, Portfolio, Skelbimas, Comment, Message, LikePortfolio, Likes, FollowersCount, Notification, Images
+from .forms import CommentForm, ReviewForm
+from .models import Profile, Portfolio, Skelbimas, Comment, Message,Review, LikePortfolio, Likes, FollowersCount, Notification, Images
 
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Labas, pasauli!")
 
 
 def signup(request):
@@ -86,6 +84,11 @@ def index(request):
 
     return render(request, 'index.html', context=context)
 
+def delete_irasas(request, id):
+    user = request.user.id
+    portfolio = Portfolio.objects.get(id=id)
+    portfolio.delete()
+    return redirect('/manoprofilis/' + str(user))
 
 def irasas(request, port_id):
     single_portfolio = get_object_or_404(Portfolio, pk=port_id)
@@ -133,6 +136,7 @@ def irasas(request, port_id):
 
 
 def profilis(request, username):
+    useris = request.user
     user_object = User.objects.get(username=username)
     user_profile = Profile.objects.get(user=user_object.id)
     user_posts = Portfolio.objects.filter(user_id=user_profile.id)
@@ -149,12 +153,31 @@ def profilis(request, username):
     user_followers = len(FollowersCount.objects.filter(user=username))
     user_following = len(FollowersCount.objects.filter(follower=username))
 
+
+    # Reviews
+    reviews = Review.objects.filter(profile=user_profile).order_by('date')
+
+    # Review form
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.profile = user_profile
+            review.user = useris
+            review.save()
+            return redirect('/profilis/' + str(user_profile.user.username))
+    else:
+        form = ReviewForm()
+
+
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
         'user_posts': user_posts,
         'user_posts_length': user_posts_length,
         'button_text': button_text,
+        'reviews': reviews,
+        'form': form,
         'user_followers': user_followers,
         'user_following': user_following,
     }
@@ -170,11 +193,28 @@ def manoprofilis(request, pk):
     user_posts_length = len(user_posts)
     user_followers = len(FollowersCount.objects.filter(user=pk))
     user_following = len(FollowersCount.objects.filter(follower=pk))
+    useris = request.user
+    # Reviews
+    reviews = Review.objects.filter(profile=user_profile).order_by('date')
+
+    # Review form
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.profile = user_profile
+            review.user = useris
+            review.save()
+            return redirect('/manoprofilis/' + str(user_profile.user.id))
+    else:
+        form = ReviewForm()
 
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
         'user_posts': user_posts,
+        'reviews': reviews,
+        'form': form,
         'user_posts_length': user_posts_length,
         'user_followers': user_followers,
         'user_following': user_following,
@@ -183,10 +223,21 @@ def manoprofilis(request, pk):
     return render(request, 'manoprofilis.html', context)
 
 
+def top(request):
+    paginator = Paginator(Portfolio.objects.all().order_by('-nr_of_likes')[:10:1], 8)
+    page_number = request.GET.get('page')
+    paged_portfolio = paginator.get_page(page_number)
+    context = {
+        "portfolio": paged_portfolio,
+    }
+
+    return render(request, 'index.html', context=context)
+
 @login_required(login_url="signin")
 def redaguotiprofili(request, pk):
     user = request.user
     user_profile = Profile.objects.get(user=user)
+
 
     if request.method == 'POST':
 
@@ -195,13 +246,12 @@ def redaguotiprofili(request, pk):
             name = request.POST['vardas']
             surname = request.POST['pavarde']
             location = request.POST['miestas']
-            birth = request.POST['gimdata']
+
 
             user_profile.about = about
             user_profile.name = name
             user_profile.surname = surname
             user_profile.location = location
-            user_profile.birth = birth
             user_profile.save()
 
         if request.FILES.get('image') != None:
@@ -210,14 +260,12 @@ def redaguotiprofili(request, pk):
             name = request.POST['vardas']
             surname = request.POST['pavarde']
             location = request.POST['miestas']
-            birth = request.POST['gimdata']
 
             user_profile.profile_img = image
             user_profile.about = about
             user_profile.name = name
             user_profile.surname = surname
             user_profile.location = location
-            user_profile.birth = birth
             user_profile.save()
 
     # return redirect('/manoprofilis/' + str(user_profile))
@@ -227,6 +275,7 @@ def redaguotiprofili(request, pk):
 
     context = {
         'user_profile': user_profile,
+
     }
     return render(request, 'redaguotiprofili.html', context=context)
 
@@ -273,19 +322,41 @@ def pridetiskelbima(request):
     user_profile = Profile.objects.get(user=request.user)
     # user_object = User.objects.get(id=pk)
     # user_profile = Profile.objects.get(user=user_object)
-    if request.method == 'POST':
-        user = request.user.id
-        name = request.POST['pavadinimas']
-        area = request.POST['sritis']
-        about = request.POST['aprasymas']
-        type = request.POST['tipas']
-        salary = request.POST['atlyginimas']
-        email = request.POST['email']
 
-        naujas_skelbimas = Skelbimas.objects.create(name=name, about=about, area=area, type=type, salary=salary,
-                                                    email=email, user_id=user_profile)
-        naujas_skelbimas.save()
-        return redirect('skelbimai')
+    user = request.user
+    user_profile = Profile.objects.get(user=user)
+
+    if request.method == 'POST':
+
+        if request.FILES.get('logo') == None:
+            user = request.user.id
+
+            name = request.POST['pavadinimas']
+            area = request.POST['sritis']
+            about = request.POST['aprasymas']
+            type = request.POST['tipas']
+            salary = request.POST['atlyginimas']
+            email = request.POST['email']
+
+            naujas_skelbimas = Skelbimas.objects.create(name=name, about=about, area=area, type=type, salary=salary,
+                                                        email=email, user_id=user_profile)
+            naujas_skelbimas.save()
+            return redirect('skelbimai')
+
+        if request.FILES.get('logo') != None:
+            logo = request.FILES['logo']
+            name = request.POST['pavadinimas']
+            area = request.POST['sritis']
+            about = request.POST['aprasymas']
+            type = request.POST['tipas']
+            salary = request.POST['atlyginimas']
+            email = request.POST['email']
+
+            naujas_skelbimas = Skelbimas.objects.create(logo=logo,name=name, about=about, area=area, type=type, salary=salary,
+                                                        email=email, user_id=user_profile)
+            naujas_skelbimas.save()
+            return redirect('skelbimai')
+
 
     return render(request, 'pridetiskelbima.html')
 
@@ -332,31 +403,54 @@ def delete_skelbimas(request, id):
 #     comment.delete()
 #     return redirect('/' + str(comment.porfolio.id))
 
+@login_required(login_url="signin")
 def edit_skelbimas(request, id):
+
     user = request.user.id
     skelbimas = Skelbimas.objects.get(id=id)
 
     if request.method == 'POST':
-        user = request.user.id
-        name = request.POST['pavadinimas']
-        area = request.POST['sritis']
-        about = request.POST['aprasymas']
-        type = request.POST['tipas']
-        salary = request.POST['atlyginimas']
-        email = request.POST['email']
+        if request.FILES.get('logo') == None:
+            user = request.user.id
+            name = request.POST['pavadinimas']
+            area = request.POST['sritis']
+            about = request.POST['aprasymas']
+            type = request.POST['tipas']
+            salary = request.POST['atlyginimas']
+            email = request.POST['email']
 
-        skelbimas.name = name
-        skelbimas.area = area
-        skelbimas.about = about
-        skelbimas.type = type
-        skelbimas.salary = salary
-        skelbimas.email = email
-        skelbimas.save()
-        return redirect('/manoskelbimai/' + str(user))
+            skelbimas.name = name
+            skelbimas.area = area
+            skelbimas.about = about
+            skelbimas.type = type
+            skelbimas.salary = salary
+            skelbimas.email = email
+            skelbimas.save()
+            return redirect('/manoskelbimai/' + str(user))
+
+        if request.FILES.get('logo') != None:
+            user = request.user.id
+            logo = request.FILES['logo']
+            name = request.POST['pavadinimas']
+            area = request.POST['sritis']
+            about = request.POST['aprasymas']
+            type = request.POST['tipas']
+            salary = request.POST['atlyginimas']
+            email = request.POST['email']
+
+            skelbimas.logo = logo
+            skelbimas.name = name
+            skelbimas.area = area
+            skelbimas.about = about
+            skelbimas.type = type
+            skelbimas.salary = salary
+            skelbimas.email = email
+            skelbimas.save()
+            return redirect('/manoskelbimai/' + str(user))
 
     context = {
         'skelbimas': skelbimas,
-        'user': user
+        'useris': request.user,
     }
     return render(request, 'edit_skelbimas.html', context=context)
 
@@ -388,7 +482,7 @@ def inbox(request):
 @login_required(login_url="signin")
 def new_conversation(request, username):
     from_user = request.user
-    body = 'Says Hello!'
+    body = 'Sveiki!'
 
     try:
         to_user = User.objects.get(username=username)
@@ -662,7 +756,7 @@ def ChangePass(request, token):
             user_obj = User.objects.get(id=user_id)
             user_obj.set_password(new_password)
             user_obj.save()
-            return redirect('/signin/')
+            return redirect('/signin')
 
 
 
@@ -675,19 +769,19 @@ def ChangePass(request, token):
 def ForgetPass(request):
     try:
         if request.method == 'POST':
-            username = request.POST.get('username')
-            if not User.objects.filter(username=username).first():
-                messages.info(request, 'User not found')
-                return redirect('/forget-password/')
+            email = request.POST.get('email')
+            if not User.objects.filter(email=email).first():
+                messages.info(request, 'El. pašto adresas neegzistuoja')
+                return redirect('forget-password')
 
-            user_obj = User.objects.get(username=username)
+            user_obj = User.objects.get(email=email)
             token = str(uuid.uuid4())
             profile_obj = Profile.objects.get(user=user_obj)
             profile_obj.forget_password_token = token
             profile_obj.save()
             send_forget_password_email(user_obj, token)
             messages.info(request, 'Laiškas su nauju slaptažodžiu išsiųstas')
-            return redirect('/forget-password//')
+            return redirect('forget-password')
 
     except Exception as e:
         print(e)
@@ -697,17 +791,25 @@ def ForgetPass(request):
 def addirasa(request, pk):
     user_profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
+        useris = request.user.id
         user = request.user.username
-        image = request.FILES.get('img')
+        image = request.FILES.get('cover')
         name = request.POST['pavadinimas']
         about = request.POST['aprasymas']
         type = request.POST['tipas']
+        images = request.FILES.getlist('images')
+
+
 
         new_post = Portfolio.objects.create(user_id=user_profile, cover=image, name=name, about=about, area=type)
         new_post.save()
-        new_image = Images.objects.create(image=image, portfolio_id=new_post)
-        new_image.save()
-        return render(request, 'addirasa.html')
+
+        for img in images:
+            new_image = Images.objects.create(image=img, portfolio_id=new_post)
+            new_image.save()
+
+
+        return redirect('/manoprofilis/' + str(useris))
 
     else:
         return render(request, 'addirasa.html')

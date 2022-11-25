@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 
+
 {% block title %}Darbo skelbimai{% endblock %}
 
 {% block content %}
 {%load static%}
 
-
+<style>
+    tr[data-href] {
+        cursor: pointer;
+    }
+</style>
 
 <div class="container my-10 text-center">
     <h2 class="mt-5">Darbo skelbimai</h2>
@@ -31,32 +36,31 @@
 
                     </div>
                     <div class="col">
-                            <button type="submit" class="btn light" style=""><span>
+
+                            <button type="submit" class="btn light" ><span>
                             <i class="bi bi-search"></i>
                             </span></button>
                     </div>
                     </div>
                 </form>
     </div>
-
+{% include 'addskelb.html' %}
     <div class="justify-content-center">
-<button type="button" class="btn btn-light"><a href="{% url 'pridetiskelbima' %}"><i class="bi bi-plus-square fs-1 text-dark"></i></a></button></div>
+<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-plus-square fs-1 text-dark"></i></a></button></div>
     <div class="my-5">
     <table class="table table-hover mt-2">
         <thead>
         <tr class="table-secondary">
             <th></th>
             <th>Pavadinimas</th>
-            <th>Aprasymas</th>
             <th>Atlyginimas</th>
             <th>Ikelta</th>
         </tr>
         </thead>
         {% for skelbimas in skelbimai%}
-        <tr>
-            <td><img src="{% static 'images/no-image.png'%}" width="60" height="60" class=" me-3"> <small>imones pav</small></td>
-            <td><a href="{% url 'skelbimas' skelbimas.id %}" class="text-secondary" style="text-decoration:none;">{{skelbimas.name}}</a></td>
-            <td>{{skelbimas.about}}</td>
+        <tr data-href="{% url 'skelbimas' skelbimas.id %}">
+            <td><img src="{{ skelbimas.logo.url}}" width="60" height="60" class=" me-3" style="object-fit:cover;"> <small>imones pav</small></td>
+            <td>{{skelbimas.name}}</td>
             <td>{{skelbimas.salary}} €</td>
             <td>{{skelbimas.upload_date}}</td>
         </tr>
@@ -85,5 +89,18 @@
         {% endif %}
     </nav>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded",  () => {
+        const rows = document.querySelectorAll("tr[data-href]");
 
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+
+            });
+        });
+
+
+    });
+</script>
 {% endblock %}

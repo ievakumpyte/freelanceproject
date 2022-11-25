@@ -4,10 +4,12 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('top', views.top, name='top'),
     path('signup', views.signup, name='signup'),
     path('signin', views.signin, name='signin'),
     path('', views.index, name='index'),
     path('<int:port_id>', views.irasas, name='irasas'),
+    path('delete_irasas/<int:id>', views.delete_irasas, name='delete_irasas'),
     path('profilis/<str:username>', views.profilis, name='profilis'),
     path('manoprofilis/<str:pk>/redaguotiprofili', views.redaguotiprofili, name='redaguotiprofili'),
     path('manoprofilis/<str:pk>', views.manoprofilis, name='manoprofilis'),

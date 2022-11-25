@@ -4,8 +4,8 @@
 
 {% block content %}
 {%load static%}
-<section class="h-100 w-100 gradient-custom-2">
-  <div class="container-fluid py-5 h-100">
+<section class="h-100 w-100 gradient-custom-2" >
+  <div class="container-fluid py-5 h-100" >
     <div class="row d-flex justify-content-center align-items-center h-100 w-100">
       <div class="col col-lg-9 col-xl-7">
         <div class="card">
@@ -24,7 +24,8 @@
                     <input type="hidden" value="{{user_object}}" name="user">
 
               {% if user_object.id == user.id %}
-
+                <br>
+                            <br>
                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                 style="z-index: 1;">
                     <a href="{% url 'redaguotiprofili' user_object.id %}" style="text-decoration:none; color:gray">Redaguoti profilį</a>
@@ -111,5 +112,61 @@
     </div>
   </div>
   </section>
+
+
+<div class="container-fluid h-100">
+    <div class="row height d-flex justify-content-center align-items-center mb-4">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="p-3">
+                    <h6>Atsiliepimai</h6>
+                </div>
+                {% if user_object.id != user.id %}
+                <form action="" method="POST" role="form">
+                    {% csrf_token %}
+
+                    <div class="mt-3 d-flex flex-row align-items-center p-3 form-color">
+                        <img src="{{request.user.profile.profile_img.url}}" width="40"
+                             height="40" class="rounded-circle me-3" style="object-fit:cover;">
+                        {{form.body}}
+                        <button class="btn btn-dark ms-3 ms-2" name="action" type="submit">Komentuoti</button>
+                    </div>
+                </form>
+                {% endif %}
+                {% if reviews %}
+                {% for review in reviews %}
+                <div class="mt-2">
+
+                    <div class="d-flex flex-row p-3 ms-4 my-4">
+
+                        <img src="{{review.user.profile.profile_img.url}}" width="40"
+                             height="40" class="rounded-circle mr-3" style="object-fit:cover;">
+
+                        <div class="w-100 ms-2">
+
+                            <div class="d-flex justify-content-between align-items-center ms-4">
+                                <div class="d-flex flex-row align-items-center"><span class="mr-2">{{review.user.first_name}} {{review.user.last_name}}</span>
+                                   </div>
+
+                                <small> {{review.date}}</small>
+
+                            </div>
+
+                            <p class="text-justify review-text mb-0 mx-4">{{review.body}}</p>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+                {% else %}
+                <p> &nbsp &nbsp  Atsiliepimų nėra.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
 
 {% endblock %}
