@@ -1,0 +1,39 @@
+
+
+{% block content %}
+{%load static%}
+
+
+<!-- Modal -->
+<div class="modal fade" id="aplikuotiModal" tabindex="-1" aria-labelledby="aplikuotiModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalLabel">Susisiekti</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'aplikavimas' single_skelbimas.id%}" method="POST">
+                <div class="modal-body">
+
+                    {% csrf_token %}
+                    <div class="forms">
+                        <div class="inputs my-2">
+                            <span>Žinutė</span> <textarea type="text" name="body" rows="4" class="form-control my-2"
+                                                          style="text-align: center;" required>Sveiki,&#10; susidomėjau jūsų skelbimu! Kviečiu peržiūrėti mano portfolio ir susisiekti.</textarea>
+                        </div>
+                        <input type="hidden" name="to_user" value=" {{user}}">
+
+                        <button type="submit" class="btn btn-dark btn-lg btn-block my-5" style="width:90%">
+                            Siųsti
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

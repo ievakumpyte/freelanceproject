@@ -1,0 +1,53 @@
+
+
+
+
+{% block content %}
+{%load static%}
+
+
+<!-- Modal -->
+<div class="modal fade mt-5" id="addirasaModal" tabindex="-1" aria-labelledby="addirasaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pridėti įrašą</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/manoprofilis/str{{request.user.id}}/addirasa" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    {% csrf_token %}
+                    <div class="container-fluid text-center">
+                        <span>Viršelis</span>
+                        <input class="form-control" type="file" name="cover" required>
+                        <span>Nuotraukos</span>
+                        <input class="form-control" type="file" name="images" multiple>
+                        <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" required>
+                        <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas"
+                                                         rows="4" cols="50" required> </textarea>
+
+                        <select name="tipas" class="form-control rounded form-select mb-3 mt-2 " required>
+                            <option value="" selected>Pasirinkite sritį:</option>
+                            <option value="Grafinis dizainas">Grafinis dizainas</option>
+                            <option value="UI/UX">UI/UX</option>
+                            <option value="Svetainės">Svetainės</option>
+                            <option value="Žaidimai">Žaidimai</option>
+
+                        </select>
+                        <div class="d-flex justify-content-center">
+
+                        <button type="submit" class="btn btn-dark form-control btn-lg btn-block my-2"
+                                style="width:50%">Išsaugoti
+                        </button>
+                            </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
