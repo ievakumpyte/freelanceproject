@@ -47,6 +47,7 @@
             </div>
 
             <div class="row my-2 align-items-center justify-content-center my-5">
+                {% if qs %}
                 {% for port in qs %}
                 <div class="col-8 col-lg-4 col-xl-3 mb-3">
                     <a href="{% url 'irasas' port.id %}" class="text-dark" style="text-decoration:none;">
@@ -64,6 +65,9 @@
                     </a>
                 </div>
                 {%endfor%}
+                {% else %}
+                <p align="center">Įrašų pagal užklausą nėra</p>
+                {%endif%}
             </div>
 
             

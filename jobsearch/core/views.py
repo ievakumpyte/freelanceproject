@@ -75,7 +75,7 @@ def signin(request):
 
 
 def index(request):
-    paginator = Paginator(Portfolio.objects.all().order_by('-date'), 8)
+    paginator = Paginator(Portfolio.objects.all().order_by('-date'), 12)
     page_number = request.GET.get('page')
     paged_portfolio = paginator.get_page(page_number)
     context = {

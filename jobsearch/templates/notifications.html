@@ -17,12 +17,14 @@
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tr>
             <td><img src="{{ notification.sender.profile.profile_img.url }}" width="60" height="60"  alt="Placeholder image"></td>
             <td><strong>{{ notification.sender.profile.name }} {{ notification.sender.profile.surname }}</strong> <small>@{{ notification.sender.username }}<p><i class="material-icons"></i> Pakomentavo jūsų įrašą</p>
             <strong><small>{{ notification.date|naturaltime }}</small></strong></small></td>
+            <td> <img src="{{ notification.portfolio.cover.url }}" width="80px" height="80px" style="object-fit:cover"></td>
             <td><a href="{% url 'delete-notification' notification.id %}" class="delete"><i class="bi bi-x-circle-fill"></i></a></td>
         </tr>
     </table>
@@ -65,7 +67,7 @@
             <td><img src="{{ notification.sender.profile.profile_img.url }}" width="60" height="60"  alt="Placeholder image"></td>
             <td><strong>{{ notification.sender.profile.name }} {{ notification.sender.profile.surname }}</strong> <small>@{{ notification.sender.username }}<p><i class="bi bi-hand-thumbs-up"></i></i> Mėgsta jūsų įrašą</p>
             <strong><small>{{ notification.date|naturaltime }}</small></strong></small></td>
-            <td> <img src="{{ notification.portfolio.cover.url }}" width="80px" height="80px"></td>
+            <td> <img src="{{ notification.portfolio.cover.url }}" width="80px" height="80px" style="object-fit:cover"></td>
             <td><a href="{% url 'delete-notification' notification.id %}" class="delete"><i class="bi bi-x-circle-fill"></i></a></td>
 
         </tr>
