@@ -12,25 +12,28 @@
     tr[data-href] {
         cursor: pointer;
     }
+    td {
+    vertical-align: middle
+    }
 </style>
 
 <div class="container mt-4">
         <h2 class="text-center my-2">Skelbimai</h2>
 
-    <table class="table table-hover mt-4">
+    <table class="table table-hover mt-4 text-center">
         <thead>
         <tr class="table-secondary">
             <th>Pavadinimas</th>
-            <th>Aprasymas</th>
             <th>Atlyginimas</th>
+            <th>Miestas</th>
             <th>Ikelta</th>
         </tr>
         </thead>
         {% for skelbimas in skelbimai%}
         <tr data-href="{% url 'skelbimas' skelbimas.id %}">
             <td>{{skelbimas.name}}</td>
-            <td>{{skelbimas.about}}</td>
-            <td>{{skelbimas.salary}}</td>
+            <td>{{skelbimas.salary}} €</td>
+            <td>{{skelbimas.location}}</td>
             <td>{{skelbimas.upload_date}}</td>
         </tr>
         {% endfor %}

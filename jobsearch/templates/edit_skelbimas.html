@@ -15,10 +15,147 @@
                 <span>Logotipas</span>
                 <input class="form-control my-1" type="file" name="logo">
                 <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" value="{{skelbimas.name}}">
-                <span>Sritis</span> <input type="text" class="form-control" name="sritis" value="{{skelbimas.area}}">
+                <span>Sritis</span>
+                <select name="sritis" class="form-control rounded form-select mb-3 " required>
+                                <option value="{{skelbimas.area}}" selected>{{skelbimas.area}}</option>
+                                <option value="Grafinis dizainas">Grafinis dizainas</option>
+                                <option value="UI/UX">UI/UX</option>
+                                <option value="Svetainės">Svetainės</option>
+                                <option value="Architektūra">Architektūra</option>
+                                <option value="Interjero dizinas">Interjero dizainas</option>
+                                <option value="Dailė">Dailė</option>
+                                <option value="3D">3D</option>
+                                <option value="Iliustracijos">Iliustracijos</option>
+                                <option value="Fotografija">Fotografija</option>
+
+                            </select>
                 <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas" rows="4"
                                                  cols="50"> {{skelbimas.about}} </textarea>
-                <span>Miestas</span> <input type="text" class="form-control" name="miestas" value="{{skelbimas.location}}">
+                <span>Miestas</span>
+                <select name="location" class="form-control rounded form-select mb-3 " required>
+                    <option value="{{skelbimas.location}}" selected>{{skelbimas.location}}</option>
+                                <option value="Visi">Visi</option>
+                                <option value="Vilnius">Vilnius</option>
+                                <option value="Kaunas">Kaunas</option>
+                                <option value="Klaipėda">Klaipėda</option>
+                                <option value="Šiauliai">Šiauliai</option>
+                                <option value="Panevėžys">Panevėžys</option>
+                                <option value="Alytus">Alytus</option>
+                                <option value="Marijampolė">Marijampolė</option>
+                                <option value="Mažeikiai">Mažeikiai</option>
+                                <option value="Jonava">Jonava</option>
+                                <option value="Utena">Utena</option>
+                                <option value="Kėdainiai">Kėdainiai</option>
+                                <option value="Tauragė">Tauragė</option>
+                                <option value="Telšiai">Telšiai</option>
+                                <option value="Ukmergė">Ukmergė</option>
+                                <option value="Visaginas">Visaginas</option>
+                                <option value="Plungė">Plungė</option>
+                                <option value="Kretinga">Kretinga</option>
+                                <option value="Palanga">Palanga</option>
+                                <option value="Radviliškis">Radviliškis</option>
+                                <option value="Šilutė">Šilutė</option>
+                                <option value="Gargždai">Gargždai</option>
+                                <option value="Druskininkai">Druskininkai</option>
+                                <option value="Rokiškis">Rokiškis</option>
+                                <option value="Elektrėnai">Elektrėnai</option>
+                                <option value="Kuršėnai">Kuršėnai</option>
+                                <option value="Grigiškės">Grigiškės</option>
+                                <option value="Biržai">Biržai</option>
+                                <option value="Lentvaris">Lentvaris</option>
+                                <option value="Joniškis">Joniškis</option>
+                                <option value="Garliava">Garliava</option>
+                                <option value="" selected>Pasirinkite miestą:</option>
+                                <option value="Visaginas">Visaginas</option>
+                                <option value="Plungė">Plungė</option>
+                                <option value="Kretinga">Kretinga</option>
+                                <option value="Palanga">Palanga</option>
+                                <option value="Radviliškis">Radviliškis</option>
+                                <option value="Šilutė">Šilutė</option>
+                                <option value="Gargždai">Gargždai</option>
+                                <option value="Druskininkai">Druskininkai</option>
+                                <option value="Rokiškis">Rokiškis</option>
+                                <option value="Elektrėnai">Elektrėnai</option>
+                                <option value="Kuršėnai">Kuršėnai</option>
+                                <option value="Grigiškės">Grigiškės</option>
+                                <option value="Biržai">Biržai</option>
+                                <option value="Lentvaris">Lentvaris</option>
+                                <option value="Joniškis">Joniškis</option>
+                                <option value="Garliava">Garliava</option>
+                                <option value="Jurbarkas">Jurbarkas</option>
+                                <option value="Raseiniai">Raseiniai</option>
+                                <option value="Vilkaviškis">Vilkaviškis</option>
+                                <option value="Anykščiai">Anykščiai</option>
+                                <option value="Prienai">Prienai</option>
+                                <option value="Varėna">Varėna</option>
+                                <option value="Kelmė">Kelmė</option>
+                                <option value="Kaišiadorys">Kaišiadorys</option>
+                                <option value="Naujoji Akmenė">Naujoji Akmenė</option>
+                                <option value="Šalčininkai">Šalčininkai</option>
+                                <option value="Pasvalys">Pasvalys</option>
+                                <option value="Zarasai">Zarasai</option>
+                                <option value="Kupiškis">Kupiškis</option>
+                                <option value="Kazlų Rūda">Kazlų Rūda</option>
+                                <option value="Širvintos">Širvintos</option>
+                                <option value="Molėtai">Molėtai</option>
+                                <option value="Pabradė">Pabradė</option>
+                                <option value="Skuodas">Skuodas</option>
+                                <option value="Šakiai">Šakiai</option>
+                                <option value="Ignalina">Ignalina</option>
+                                <option value="Lazdijai">Lazdijai</option>
+                                <option value="Švenčionėliai">Švenčionėliai</option>
+                                <option value="Šilalė">Šilalė</option>
+                                <option value="Nemenčinė">Nemenčinė</option>
+                                <option value="Kybartai">Kybartai</option>
+                                <option value="Vievis">Vievis</option>
+                                <option value="Pakruojis">Pakruojis</option>
+                                <option value="Trakai">Trakai</option>
+                                <option value="Švenčionys">Švenčionys</option>
+                                <option value="Rietavas">Rietavas</option>
+                                <option value="Kalvarija">Kalvarija</option>
+                                <option value="Žiežmariai">Žiežmariai</option>
+                                <option value="Eišiškės">Eišiškės</option>
+                                <option value="Ariogala">Ariogala</option>
+                                <option value="Neringa">Neringa</option>
+                                <option value="Šeduva">Šeduva</option>
+                                <option value="Birštonas">Birštonas</option>
+                                <option value="Venta">Venta</option>
+                                <option value="Akmenė">Akmenė</option>
+                                <option value="Tytuvėnai">Tytuvėnai</option>
+                                <option value="Rūdiškės">Rūdiškės</option>
+                                <option value="Vilkija">Vilkija</option>
+                                <option value="Pagėgiai">Pagėgiai</option>
+                                <option value="Viekšniai">Viekšniai</option>
+                                <option value="Žagarė">Žagarė</option>
+                                <option value="Kaišiadorys">Ežerėlis</option>
+                                <option value="Skaudvilė">Skaudvilė</option>
+                                <option value="Gelgaudiškis">Gelgaudiškis</option>
+                                <option value="Kudirkos Naumiestis">Kudirkos Naumiestis</option>
+                                <option value="Simnas">Simnas</option>
+                                <option value="Salantai">Salantai</option>
+                                <option value="Linkuva">Linkuva</option>
+                                <option value="Ramygala">Ramygala</option>
+                                <option value="Priekulė">Priekulė</option>
+                                <option value="Veisiejai">Veisiejai</option>
+                                <option value="Daugai">Daugai</option>
+                                <option value="Joniškėlis">Joniškėlis</option>
+                                <option value="Jieznas">Jieznas</option>
+                                <option value="Obeliai">Obeliai</option>
+                                <option value="Varniai">Varniai</option>
+                                <option value="Virbalis">Virbalis</option>
+                                <option value="Seda">Seda</option>
+                                <option value="Vabalninkas">Vabalninkas</option>
+                                <option value="Subačius">Subačius</option>
+                                <option value="Baltoji Vokė">Baltoji Vokė</option>
+                                <option value="Pandėlys">Pandėlys</option>
+                                <option value="Dūkštas">Dūkštas</option>
+                                <option value="Užventis">Užventis</option>
+                                <option value="Dusetos">Dusetos</option>
+                                <option value="Kavarskas">Kavarskas</option>
+                                <option value="Smalininkai">Smalininkai</option>
+                                <option value="Troškūnai">Troškūnai</option>
+                                <option value="Panemunė">Panemunė</option>
+                                </select>
                 <span>Tipas</span> <input type="text" class="form-control" name="tipas" value="{{skelbimas.type}}">
                 <span>Atlyginimas</span> <input type="text" class="form-control" name="atlyginimas" value="{{skelbimas.salary}}">
                 <span>El. paštas</span> <input type="email" class="form-control" name="email" value="{{skelbimas.email}}">

@@ -39,7 +39,7 @@
                                     <span>Pavardė</span> <input type="text" class="form-control" name="pavarde"
                                                                 value="{{user_profile.surname}}">
                                     <span>Aprašymas</span> <textarea id="aprasymas" class="form-control"
-                                                                     name="aprasymas" rows="4" cols="50">{{user_profile.about}} </textarea>
+                                                                     name="aprasymas" rows="4" cols="50">{% if user_profile.about != None%}{{user_profile.about}}{%endif%} </textarea>
                                     <span>Miestas</span>
                                     <select name="miestas" class="form-control rounded form-select mb-3 ">
                                 <option value="{{user_profile.location}}" selected>{{user_profile.location}}</option>
@@ -166,7 +166,7 @@
                                 </select>
 
                                     <button type="button" class="btn btn-dark btn-lg btn-block my-2" style="width:50%">
-                                        <a href="/" style="text-decoration:none; color:white;">Atgal</a></button>
+                                        <a href="/manoprofilis/{{user.id}}" style="text-decoration:none; color:white;">Atgal</a></button>
                                     <a href="{% url 'manoprofilis' user_profile.id %}">
                                     <button type="submit" class="btn btn-dark btn-lg btn-block mb-5" style="width:50%">
                                         Išsaugoti

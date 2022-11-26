@@ -29,10 +29,10 @@ def signup(request):
 
         if password == password2:
             if User.objects.filter(email=email).exists():
-                messages.info(request, 'Email Taken')
+                messages.info(request, 'El. paštas jau egzistuoja')
                 return redirect('signup')
             elif User.objects.filter(username=username).exists():
-                messages.info(request, 'Username Taken')
+                messages.info(request, 'Vartotojo vardas jau egzistuoja')
                 return redirect('signup')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password, first_name=name,
@@ -50,7 +50,7 @@ def signup(request):
                 return redirect('/')
 
         else:
-            messages.info(request, 'Password Does Not Match ')
+            messages.info(request, 'Slaptažodžiai nesutampa ')
             return redirect('signup')
 
     else:
@@ -68,14 +68,14 @@ def signin(request):
             auth.login(request, user)
             return redirect('/')
         else:
-            messages.info(request, 'Credentials invalid')
+            messages.info(request, 'Neteisingi prisijungimo duomenys')
             return redirect('signin')
     else:
         return render(request, 'signin.html')
 
 
 def index(request):
-    paginator = Paginator(Portfolio.objects.all(), 8)
+    paginator = Paginator(Portfolio.objects.all().order_by('-date'), 8)
     page_number = request.GET.get('page')
     paged_portfolio = paginator.get_page(page_number)
     context = {
@@ -337,8 +337,9 @@ def pridetiskelbima(request):
             type = request.POST['tipas']
             salary = request.POST['atlyginimas']
             email = request.POST['email']
+            location = request.POST['location']
 
-            naujas_skelbimas = Skelbimas.objects.create(name=name, about=about, area=area, type=type, salary=salary,
+            naujas_skelbimas = Skelbimas.objects.create(name=name, about=about, area=area, type=type, salary=salary,location=location,
                                                         email=email, user_id=user_profile)
             naujas_skelbimas.save()
             return redirect('skelbimai')
@@ -351,8 +352,9 @@ def pridetiskelbima(request):
             type = request.POST['tipas']
             salary = request.POST['atlyginimas']
             email = request.POST['email']
+            location = request.POST['location']
 
-            naujas_skelbimas = Skelbimas.objects.create(logo=logo,name=name, about=about, area=area, type=type, salary=salary,
+            naujas_skelbimas = Skelbimas.objects.create(logo=logo,name=name, about=about, area=area, type=type, salary=salary,location=location,
                                                         email=email, user_id=user_profile)
             naujas_skelbimas.save()
             return redirect('skelbimai')
@@ -398,10 +400,10 @@ def delete_skelbimas(request, id):
     skelbimas.delete()
     return redirect('/manoskelbimai/' + str(user))
 
-# def del_comment(request, id):
-#     comment = Comment.objects.get(id=id)
-#     comment.delete()
-#     return redirect('/' + str(comment.porfolio.id))
+def del_comment(request, id):
+    comment = Comment.objects.get(id=id)
+    comment.delete()
+    return redirect('/' + str(comment.porfolio.id))
 
 @login_required(login_url="signin")
 def edit_skelbimas(request, id):
@@ -418,6 +420,7 @@ def edit_skelbimas(request, id):
             type = request.POST['tipas']
             salary = request.POST['atlyginimas']
             email = request.POST['email']
+            location = request.POST['location']
 
             skelbimas.name = name
             skelbimas.area = area
@@ -425,6 +428,7 @@ def edit_skelbimas(request, id):
             skelbimas.type = type
             skelbimas.salary = salary
             skelbimas.email = email
+            skelbimas.location = location
             skelbimas.save()
             return redirect('/manoskelbimai/' + str(user))
 
@@ -437,6 +441,7 @@ def edit_skelbimas(request, id):
             type = request.POST['tipas']
             salary = request.POST['atlyginimas']
             email = request.POST['email']
+            location = request.POST['location']
 
             skelbimas.logo = logo
             skelbimas.name = name
@@ -445,6 +450,7 @@ def edit_skelbimas(request, id):
             skelbimas.type = type
             skelbimas.salary = salary
             skelbimas.email = email
+            skelbimas.location = location
             skelbimas.save()
             return redirect('/manoskelbimai/' + str(user))
 

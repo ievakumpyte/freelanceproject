@@ -28,7 +28,12 @@
                                 <option value="Grafinis dizainas">Grafinis dizainas</option>
                                 <option value="UI/UX">UI/UX</option>
                                 <option value="Svetainės">Svetainės</option>
-                                <option value="Žaidimai">Žaidimai</option>
+                                <option value="Architektūra">Architektūra</option>
+                                <option value="Interjero dizinas">Interjero dizainas</option>
+                                <option value="Dailė">Dailė</option>
+                                <option value="3D">3D</option>
+                                <option value="Iliustracijos">Iliustracijos</option>
+                                <option value="Fotografija">Fotografija</option>
 
                             </select>
 
@@ -48,14 +53,14 @@
 
                     <div class="card" style="width: 300px;">
                         <a href="{% url 'profilis' port.user_id.user.username %}"
-                           style="text-decoration:none; color:black"><p class="text-center mt-2"><small>{{port.user_id.name}}
+                           style="text-decoration:none; color:black"><p class="text-center mt-2"><small><i class="bi bi-person-fill"></i>{{port.user_id.name}}
                             {{port.user_id.surname}}</small></p></a>
                         <a href="{% url 'irasas' port.id %}" class="text-dark" style="text-decoration:none;">
                             <img src="{{port.cover.url}}" class="card-img-top" alt="..."
                                  style="width:300px; height:300px; object-fit: cover;">
-                            <div class="card-body d-flex justify-content-between">
-                                <p class="card-text">{{port.name}}</p>
-                                <a href="/like-post?portfolio_id={{port.id}}" class="text-dark"
+                            <div class="card-body d-flex justify-content-center">
+                                <p class="card-text" align="center">{{port.name}}</p>
+                                <a href="/like-post?portfolio_id={{port.id}}" class="text-dark ms-3"
                                    style="text-decoration:none;"> <i
                                         class="bi bi-heart-fill me-1"></i>{{port.nr_of_likes}}</a>
                             </div>

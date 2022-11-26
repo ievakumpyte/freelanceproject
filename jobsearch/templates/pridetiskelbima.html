@@ -12,7 +12,23 @@
             {% csrf_token %}
             <div class="container w-50">
                 <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" value="">
-                <span>Sritis</span> <input type="text" class="form-control" name="sritis" value="">
+                <span>Sritis</span>
+                  <div class="col-5">
+                            <select name="sritis" class="form-control rounded form-select mb-3 ">
+                                <option value="" selected>Pasirinkite sritį:</option>
+                                <option value="Grafinis dizainas">Grafinis dizainas</option>
+                                <option value="UI/UX">UI/UX</option>
+                                <option value="Svetainės">Svetainės</option>
+                                <option value="Architektūra">Architektūra</option>
+                                <option value="Interjero dizinas">Interjero dizainas</option>
+                                <option value="Dailė">Dailė</option>
+                                <option value="3D">3D</option>
+                                <option value="Iliustracijos">Iliustracijos</option>
+                                <option value="Fotografija">Fotografija</option>
+
+                            </select>
+
+                        </div>
                 <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas" rows="4"
                                                  cols="50"> </textarea>
                 <span>Miestas</span> <input type="text" class="form-control" name="miestas" value="">

@@ -24,8 +24,7 @@
                         </div>
                         {%endif%}
                         <div class="ms-5 my-4">
-                        <h5 class="text-center"> {{single_portfolio.name}}</h5>
-
+                        <h5 class="text-center"> {{single_portfolio.name}}</h5><br>
                         <p> {{single_portfolio.about}}</p>
                             </div>
                         <div class="d-flex flex-row-reverse bd-highlight">
@@ -93,27 +92,29 @@
                     </div>
                 </form>
                 {% for comment in comments %}
-                <div class="mt-2">
-
-                    <div class="d-flex flex-row p-3 ms-4 my-4">
+                <div class="">
+<hr>
+                    <div class="d-flex flex-row ps-3 pe-5 ms-4">
 
                         <img src="{{comment.user.profile.profile_img.url}}" width="40"
                              height="40" class="rounded-circle mr-3" style="object-fit:cover;">
 
-                        <div class="w-100 ms-2">
+                        <div class="w-100 ms-2 ">
 
                             <div class="d-flex justify-content-between align-items-center ms-4">
+
                                 <div class="d-flex flex-row align-items-center"><span class="mr-2">{{comment.user.first_name}} {{comment.user.last_name}}</span>
                                    </div>
 
-                                <small> {{comment.date}}</small>
+                              <div>  <small> {{comment.date}}</small></div>
 
                             </div>
 
-                            <p class="text-justify comment-text mb-0 mx-4">{{comment.body}}</p>
-
+                            <div><p class="text-justify comment-text mb-0 mx-4">{{comment.body}}</p></div>
+                         {% if comment.user == user%}   <div class="d-flex justify-content-end">  <a href="{% url 'del_comment' comment.id%}" style="text-decoration:none;"><small><i class="bi bi-trash"></i> Ištrinti</small></a></div>{% endif %}
                         </div>
                     </div>
+<hr>
                     {% endfor %}
 
 
@@ -124,4 +125,19 @@
 </div>
     <br>
 </div>
+
+<script>
+
+    let loadMoreBtn = document.querySelector('#load-more');
+    let currentItem = 3;
+
+    loadMoreBtn.onclick - () =>{
+    let boxes = [...document.querySelectorAll('.container .box-container .box')];
+    for (var i = currentItem; i < currentItem + 3; i++){
+        boxes[i].style.display = 'inline-block;
+    }
+    currentItem+=3;
+    }
+
+</script>
 {% endblock %}

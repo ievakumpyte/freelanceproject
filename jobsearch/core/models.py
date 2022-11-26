@@ -13,8 +13,8 @@ class Profile(models.Model):
     about = models.TextField("About", max_length=1000, null=True, blank=True)
     profile_img = models.ImageField("Profile image",upload_to='profile_images', default='blank-profile-photo.jpeg')
     location = models.CharField("Location",max_length=100,null=True, blank=True)
-    favorites_port = models.ManyToManyField("Portfolio")
-    favorites_skelb = models.ManyToManyField("Skelbimas")
+    favorites_port = models.ManyToManyField("Portfolio", blank=True)
+    favorites_skelb = models.ManyToManyField("Skelbimas", blank=True)
 
     def __str__(self):
         return f'{self.id} {self.user.username}'
@@ -22,7 +22,7 @@ class Profile(models.Model):
 
 class Portfolio(models.Model):
     name = models.CharField("Name",max_length=100, null=True,blank=True)
-    about = models.CharField("About",max_length=100,null=True, blank=True)
+    about = models.CharField("About",max_length=1000,null=True, blank=True)
     area = models.CharField("Area",max_length=100,null=True, blank=True)
     user_id = models.ForeignKey("Profile", on_delete=models.CASCADE)
     cover = models.ImageField("Cover", default='blank-profile-photo.jpeg', upload_to='covers', null=True)
@@ -43,7 +43,7 @@ class Images(models.Model):
 class Skelbimas(models.Model):
     logo = models.ImageField("Logo", default='no-image.png', upload_to='skelbimai', blank=True)
     name = models.CharField("Name",max_length=100, null=True,blank=True)
-    about = models.CharField("About",max_length=100,null=True, blank=True)
+    about = models.CharField("About",max_length=1000,null=True, blank=True)
     upload_date = models.DateField("Upload date",null=True,auto_now=True)
     area = models.CharField("Area",max_length=100, null=True, blank=True)
     user_id = models.ForeignKey("Profile", on_delete=models.CASCADE)

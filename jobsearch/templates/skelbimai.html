@@ -10,6 +10,10 @@
     tr[data-href] {
         cursor: pointer;
     }
+    td {
+    vertical-align: middle
+    }
+
 </style>
 
 <div class="container my-10 text-center">
@@ -24,17 +28,22 @@
                         <input type="search" name="paieska" class="form-control rounded" placeholder="Search"
                                aria-label="Search"/>
                      </div>
-                    <div class="col-5">
-                        <select name="filtras" class="form-control rounded form-select mb-3 ">
-                            <option value="" selected>Pasirinkite sritį:</option>
-                            <option value="Grafinis dizainas">Grafinis dizainas</option>
-                            <option value="UI/UX">UI/UX</option>
-                            <option value="Svetainės">Svetainės</option>
-                            <option value="Žaidimai">Žaidimai</option>
+                     <div class="col-5">
+                            <select name="filtras" class="form-control rounded form-select mb-3 ">
+                                <option value="" selected>Pasirinkite sritį:</option>
+                                <option value="Grafinis dizainas">Grafinis dizainas</option>
+                                <option value="UI/UX">UI/UX</option>
+                                <option value="Svetainės">Svetainės</option>
+                                <option value="Architektūra">Architektūra</option>
+                                <option value="Interjero dizainas">Interjero dizainas</option>
+                                <option value="Dailė">Dailė</option>
+                                <option value="3D">3D</option>
+                                <option value="Iliustracijos">Iliustracijos</option>
+                                <option value="Fotografija">Fotografija</option>
 
-                        </select>
+                            </select>
 
-                    </div>
+                        </div>
                     <div class="col">
 
                             <button type="submit" class="btn light" ><span>
@@ -54,14 +63,16 @@
             <th></th>
             <th>Pavadinimas</th>
             <th>Atlyginimas</th>
+            <th>Miestas</th>
             <th>Ikelta</th>
         </tr>
         </thead>
         {% for skelbimas in skelbimai%}
         <tr data-href="{% url 'skelbimas' skelbimas.id %}">
-            <td><img src="{{ skelbimas.logo.url}}" width="60" height="60" class=" me-3" style="object-fit:cover;"> <small>imones pav</small></td>
-            <td>{{skelbimas.name}}</td>
+            <td><img src="{{ skelbimas.logo.url}}" width="60" height="60" class=" me-3" style="object-fit:cover;"> <small></small></td>
+            <td >{{skelbimas.name}}</td>
             <td>{{skelbimas.salary}} €</td>
+            <td>{{skelbimas.location}}</td>
             <td>{{skelbimas.upload_date}}</td>
         </tr>
         {% endfor %}

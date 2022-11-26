@@ -7,7 +7,9 @@
 <div class="container">
     <br>
     <a href=" {% url 'profilis' profilis.user %}" class="text-dark" style="text-decoration:none"><h5
-            class=" text-center"><img src="{{profilis.profile_img.url}}" width="60"
+            class=" text-center">
+
+        <img src="{{profilis.profile_img.url}}" width="60"
                                       height="60" class="rounded-circle mr-3" style="object-fit:cover;">
         {{profilis.name}} {{profilis.surname}}</h5></a>
     <hr>
@@ -30,9 +32,14 @@
         </a><span>Save</span>
     </div>
     {%endif%}
-
+    {% if single_skelbimas.logo %}
     <img src="{{single_skelbimas.logo.url}}" width="150" height="150" class="center me-3"
          style="text-align:center;">
+    {% else %}
+    <p></p>
+    {%endif%}
+    <br>
+    <br>
     <h5>Darbo pobūdis</h5>
     <div style="word-wrap: break-word;
    width: 1200px;">
@@ -44,7 +51,12 @@
     <br>
     <h5>Atlyginimas</h5>
     <p> {{single_skelbimas.salary}}</p>
-
+    <br>
+    <h5>Miestas</h5>
+    <p> {{single_skelbimas.location}}</p>
+    <br>
+    <h5>Kontaktai:</h5>
+    <p> {{single_skelbimas.email}}</p>
 
     <br>
     <br>

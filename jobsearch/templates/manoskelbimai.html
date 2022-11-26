@@ -8,6 +8,9 @@
     tr[data-href] {
         cursor: pointer;
     }
+    td {
+    vertical-align: middle
+    }
 </style>
 
 <div class="container my-5 text-center">
@@ -17,15 +20,16 @@
 
         <tr>
             <th>Pavadinimas</th>
-
             <th>Atlyginimas</th>
+            <th>Miestas</th>
             <th>Ikelta</th>
 
         </tr>
         {% for skelb in user_skelbimai.all%}
         <tr data-href="{% url 'skelbimas' skelb.id %}">
             <td>{{skelb.name}}</td>
-            <td>{{skelb.salary}}</td>
+            <td>{{skelb.salary}} €</td>
+            <td>{{skelb.location}}</td>
             <td>{{skelb.upload_date}}</td>
             <td>
                 <a href="{% url 'delete_skelbimas' skelb.id %}">
