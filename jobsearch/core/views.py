@@ -191,8 +191,8 @@ def manoprofilis(request, pk):
     user_profile = Profile.objects.get(user=user_object)
     user_posts = Portfolio.objects.filter(user_id=user_profile.id)
     user_posts_length = len(user_posts)
-    user_followers = len(FollowersCount.objects.filter(user=pk))
-    user_following = len(FollowersCount.objects.filter(follower=pk))
+    user_followers = len(FollowersCount.objects.filter(user=user_profile.user.username))
+    user_following = len(FollowersCount.objects.filter(follower=user_profile.user.username))
     useris = request.user
     # Reviews
     reviews = Review.objects.filter(profile=user_profile).order_by('date')
@@ -281,7 +281,7 @@ def redaguotiprofili(request, pk):
 
 
 def skelbimai(request):
-    paginator = Paginator(Skelbimas.objects.all(), 3)
+    paginator = Paginator(Skelbimas.objects.all().order_by('-upload_date'), 10)
     page_number = request.GET.get('page')
     paged_skelbimai = paginator.get_page(page_number)
 
@@ -582,6 +582,8 @@ def search_portfolio(request):
        naujas = Portfolio.objects.all()
 
 
+
+
     context = {
         'qs': naujas
     }
@@ -595,17 +597,23 @@ def search_skelbimai(request):
     filtras = request.POST["filtras"]
 
     if paieska != '' and paieska is not None:
-        naujas = skelbimai.filter(Q(name__icontains=paieska) | Q(user_id__user__first_name__icontains=paieska) | Q(user_id__user__last_name__icontains=paieska) | Q(user_id__user__username__icontains=paieska))
+        naujas = Paginator(skelbimai.filter(Q(name__icontains=paieska) | Q(user_id__user__first_name__icontains=paieska) | Q(user_id__user__last_name__icontains=paieska) | Q(user_id__user__username__icontains=paieska)),10)
+        page_number = request.GET.get('page')
+        paged_skelbimai = naujas.get_page(page_number)
 
     elif filtras != '' and filtras is not None:
-        naujas = skelbimai.filter(area=filtras)
+        naujas = Paginator(skelbimai.filter(area=filtras),10)
+        page_number = request.GET.get('page')
+        paged_skelbimai = naujas.get_page(page_number)
 
     else:
-       naujas = skelbimai.objects.all()
+       naujas = Paginator(Skelbimas.objects.all(), 10)
+       page_number = request.GET.get('page')
+       paged_skelbimai = naujas.get_page(page_number)
 
 
     context = {
-        'qs': naujas
+        'qs': paged_skelbimai,
     }
 
     return render(request, 'paieska_skelbimai.html', context=context)

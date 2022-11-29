@@ -21,6 +21,7 @@
         <tr>
             <th>Pavadinimas</th>
             <th>Atlyginimas</th>
+            <th>Pobūdis</th>
             <th>Miestas</th>
             <th>Ikelta</th>
 
@@ -29,6 +30,7 @@
         <tr data-href="{% url 'skelbimas' skelb.id %}">
             <td>{{skelb.name}}</td>
             <td>{{skelb.salary}} €</td>
+            <td>{{skelb.type}}</td>
             <td>{{skelb.location}}</td>
             <td>{{skelb.upload_date}}</td>
             <td>

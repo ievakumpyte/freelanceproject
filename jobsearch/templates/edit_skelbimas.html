@@ -4,6 +4,11 @@
 
 {% block content %}
 {%load static%}
+<style>
+    .req{
+    color: red;
+    }
+</style>
 <div class="container-fluid my-5 w-50">
 <section class="h-100 w-100 gradient-custom-2">
     <div class="card text-center">
@@ -14,7 +19,7 @@
             <div class="container w-50">
                 <span>Logotipas</span>
                 <input class="form-control my-1" type="file" name="logo">
-                <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" value="{{skelbimas.name}}">
+                <span>Pavadinimas </span> <input type="text" class="form-control" name="pavadinimas" value="{{skelbimas.name}}">
                 <span>Sritis</span>
                 <select name="sritis" class="form-control rounded form-select mb-3 " required>
                                 <option value="{{skelbimas.area}}" selected>{{skelbimas.area}}</option>
@@ -65,7 +70,7 @@
                                 <option value="Lentvaris">Lentvaris</option>
                                 <option value="Joniškis">Joniškis</option>
                                 <option value="Garliava">Garliava</option>
-                                <option value="" selected>Pasirinkite miestą:</option>
+
                                 <option value="Visaginas">Visaginas</option>
                                 <option value="Plungė">Plungė</option>
                                 <option value="Kretinga">Kretinga</option>

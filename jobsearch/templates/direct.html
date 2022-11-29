@@ -36,11 +36,13 @@
 					</div>
 					{% for message in messages %}
 				<div style="{% if active_direct == message.user.username %} background-color:gray; {% endif %}">
-	<a  href="{% url 'directs' message.user.username %}" style="text-decoration:none; color:black;">
 
 
-						<div class="d-flex align-items-start ms-4 mt-4 bg-light p-2">
-								<img src="{{ message.user.profile.profile_img.url }} " class="rounded-circle mr-1" width="40" height="40">
+
+						<div class="d-flex align-items-start ms-4 bg-light p-2">
+							<a href="{% url 'profilis' message.user.username %}"><img src="{{ message.user.profile.profile_img.url }} " class="rounded-circle mr-1" width="40" height="40"></a>
+
+							<a  href="{% url 'directs' message.user.username %}" style="text-decoration:none; color:black;">
 							<div class="flex-grow-1 ml-3 ms-3">
 								 {{ message.user.profile.name }}{{ message.user.profile.surname }}
 								<div class="small">@{{ message.user.username }} </span> </div>
@@ -55,10 +57,10 @@
 									</p>
 									{% endif %}
 								  </div>
-
+</a>
 						</div>
 
-					</a>
+
 					</div>
 					<br>
 

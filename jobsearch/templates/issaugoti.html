@@ -25,6 +25,7 @@
         <tr class="table-secondary">
             <th>Pavadinimas</th>
             <th>Atlyginimas</th>
+            <th>Pobūdis</th>
             <th>Miestas</th>
             <th>Ikelta</th>
         </tr>
@@ -33,6 +34,7 @@
         <tr data-href="{% url 'skelbimas' skelbimas.id %}">
             <td>{{skelbimas.name}}</td>
             <td>{{skelbimas.salary}} €</td>
+            <td>{{skelbimas.type}}</td>
             <td>{{skelbimas.location}}</td>
             <td>{{skelbimas.upload_date}}</td>
         </tr>

@@ -6,10 +6,10 @@
 {%load static%}
 
 <style>
-    a{
+    .bt a{
     color: black
     }
-    a:hover{
+    .bt a:hover{
     color:white
     }
 
@@ -38,7 +38,7 @@
                             <br>
                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                 style="z-index: 1;">
-                    <a href="{% url 'redaguotiprofili' user_object.id %}" style="text-decoration:none; color:gray">Redaguoti profilį</a>
+                    <a class="bt" href="{% url 'redaguotiprofili' user_object.id %}" style="text-decoration:none; color:gray">Redaguoti profilį</a>
                 </button>
                 {% else%}
                 <button type="submit" class="btn btn-outline-dark " data-mdb-ripple-color="dark"
@@ -147,7 +147,7 @@
                 {% for review in reviews %}
                 <div class="">
 <hr>
-                    <div class="d-flex flex-row ps-3 pe-5 ms-4">
+                    <div class="d-flex flex-row p-3 ms-4 my-4">
 
                         <img src="{{review.user.profile.profile_img.url}}" width="40"
                              height="40" class="rounded-circle mr-3" style="object-fit:cover;">

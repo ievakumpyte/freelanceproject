@@ -4,7 +4,11 @@
 
 {% block content %}
 {%load static%}
-
+<style>
+    .req{
+    color: red;
+    }
+</style>
 <!-- Modal -->
 <div class="modal fade" id="addModal" aria-labelledby="addModalLabel" aria-hidden="true">
   <div class="modal-dialog" >
@@ -19,8 +23,8 @@
             <div class="container-fluid ">
                 <span>Logotipas</span>
                 <input class="form-control" type="file" name="logo">
-                <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" value="" required>
-                <span>Sritis</span>
+                <span>Pavadinimas <span class="req">*</span></span> <input type="text" class="form-control" name="pavadinimas" value="" required>
+                <span>Sritis<span class="req">*</span></span>
                 <select name="sritis" class="form-control rounded form-select mb-3 " required>
                                 <option value="" selected>Pasirinkite sritį:</option>
                                 <option value="Grafinis dizainas">Grafinis dizainas</option>
@@ -34,8 +38,8 @@
                                 <option value="Fotografija">Fotografija</option>
 
                             </select>
-                <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas" rows="4" cols="50" required> </textarea>
-                <span>Miestas</span>
+                <span>Aprašymas<span class="req">*</span></span> <textarea id="aprasymas" class="form-control" name="aprasymas" rows="4" cols="50" required> </textarea>
+                <span>Miestas<span class="req">*</span></span>
                 <select name="location" class="form-control rounded form-select mb-3 " required>
                     <option value="" selected>Pasirinkite miestą:</option>
                                 <option value="Visi">Visi</option>
@@ -160,14 +164,14 @@
                                 <option value="Troškūnai">Troškūnai</option>
                                 <option value="Panemunė">Panemunė</option>
                                 </select>
-                <span>Tipas</span>
+                <span>Tipas<span class="req">*</span></span>
                 <select name="tipas" class="form-control rounded form-select mb-3 " required>
                                 <option value="" selected>Pasirinkite darbo tipą:</option>
                                 <option value="Ilgalaikis">Ilgalaikis</option>
                                 <option value="Trumpalaikis">Trumpalaikis</option>
                             </select>
-                <span>Atlyginimas</span> <input type="number" class="form-control" name="atlyginimas" value="" required>
-                <span>El. paštas</span> <input type="email" class="form-control" name="email" value="" required>
+                <span>Atlyginimas<span class="req">*</span></span> <input type="number" class="form-control" name="atlyginimas" value="" required>
+                <span>El. paštas<span class="req">*</span></span> <input type="email" class="form-control" name="email" value="" required>
                 <br>
                 <button type="submit" class="btn btn-dark btn-lg btn-block mb-2 " style="width:50%">Pridėti</button>
             </div>

@@ -13,7 +13,7 @@
                         <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                             <img src="{{user_profile.profile_img.url}}"
                                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                                 style="object-fit:cover;">
+                                 style="object-fit:cover; 150px; height:150px; z-index: 1">
 
                             <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                     style="z-index: 1;">
@@ -27,7 +27,7 @@
                             <h5>{{user_profile.name}} {{user_profile.surname}}</h5>
                             {% if user_profile.location != None%}
                             <p>{{user_profile.location}}</p>
-                            {% else %}
+                            {% else%}
                             <p></p>
                             {% endif %}
                         </div>

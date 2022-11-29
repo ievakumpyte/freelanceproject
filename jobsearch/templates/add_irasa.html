@@ -5,7 +5,11 @@
 {% block content %}
 {%load static%}
 
-
+<style>
+    .req{
+    color: red;
+    }
+</style>
 <!-- Modal -->
 <div class="modal fade mt-5" id="addirasaModal" tabindex="-1" aria-labelledby="addirasaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -19,16 +23,16 @@
 
                     {% csrf_token %}
                     <div class="container-fluid text-center">
-                        <span>Viršelis</span>
+                        <span>Viršelis <span class="req">*</span></span>
                         <input class="form-control" type="file" name="cover" required>
                         <span>Nuotraukos</span>
                         <input class="form-control" type="file" name="images" multiple>
-                        <span>Pavadinimas</span> <input type="text" class="form-control" name="pavadinimas" required>
+                        <span>Pavadinimas <span class="req">*</span></span> <input type="text" class="form-control" name="pavadinimas" required>
                         <span>Aprašymas</span> <textarea id="aprasymas" class="form-control" name="aprasymas"
                                                          rows="4" cols="50" > </textarea>
-
+                        <span>Sritis <span class="req">*</span></span>
                         <select name="tipas" class="form-control rounded form-select mb-3 mt-2 " required>
-                            <option value="" selected>Pasirinkite sritį:</option>
+                            <option value="" selected>Pasirinkite sritį: </option>
                                 <option value="Grafinis dizainas">Grafinis dizainas</option>
                                 <option value="UI/UX">UI/UX</option>
                                 <option value="Svetainės">Svetainės</option>
