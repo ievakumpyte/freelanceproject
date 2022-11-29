@@ -20,6 +20,7 @@ urlpatterns = [
     path('manoskelbimai/<str:pk>', views.manoskelbimai, name='manoskelbimai'),
     path('delete_skelbimas/<int:id>', views.delete_skelbimas, name='delete_skelbimas'),
     path('del_comment/<int:id>', views.del_comment, name='del_comment'),
+    path('del_review/<int:id>', views.del_review, name='del_review'),
     path('edit_skelbimas/<int:id>', views.edit_skelbimas, name='edit_skelbimas'),
     path('inbox', views.inbox, name='inbox'),
     path('search_portfolio', views.search_portfolio, name='search_portfolio'),

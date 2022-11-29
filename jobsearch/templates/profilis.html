@@ -4,6 +4,16 @@
 
 {% block content %}
 {%load static%}
+
+<style>
+    a{
+    color: black
+    }
+    a:hover{
+    color:white
+    }
+
+</style>
 <section class="h-100 w-100 gradient-custom-2" >
   <div class="container-fluid py-5 h-100" >
     <div class="row d-flex justify-content-center align-items-center h-100 w-100">
@@ -135,9 +145,9 @@
                 {% endif %}
                 {% if reviews %}
                 {% for review in reviews %}
-                <div class="mt-2">
-
-                    <div class="d-flex flex-row p-3 ms-4 my-4">
+                <div class="">
+<hr>
+                    <div class="d-flex flex-row ps-3 pe-5 ms-4">
 
                         <img src="{{review.user.profile.profile_img.url}}" width="40"
                              height="40" class="rounded-circle mr-3" style="object-fit:cover;">
@@ -153,9 +163,11 @@
                             </div>
 
                             <p class="text-justify review-text mb-0 mx-4">{{review.body}}</p>
-
+{% if review.user == user%}   <div class="d-flex justify-content-end">  <a href="{% url 'del_review' review.id%}" style="text-decoration:none;"><small><i class="bi bi-trash"></i> Ištrinti</small></a></div>{% endif %}
+                        </div>
                         </div>
                     </div>
+<hr>
                     {% endfor %}
 
 

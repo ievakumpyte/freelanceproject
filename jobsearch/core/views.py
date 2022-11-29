@@ -405,6 +405,11 @@ def del_comment(request, id):
     comment.delete()
     return redirect('/' + str(comment.porfolio.id))
 
+def del_review(request, id):
+    review = Review.objects.get(id=id)
+    review.delete()
+    return redirect('/profilis/' + str(review.profile.user.username))
+
 @login_required(login_url="signin")
 def edit_skelbimas(request, id):
 

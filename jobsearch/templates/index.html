@@ -7,7 +7,15 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+<style>
 
+    .page-link {
+    background-color: white !important;
+    color: black !important;
+
+    }
+
+</style>
 <section class="bg-gray mt-3">
     <div class="container-lg mt-2">
         <div class="row ">
@@ -80,7 +88,7 @@
 <div class="container puslapiai">
     <nav aria-label="...">
         {% if portfolio.has_other_pages %}
-        <ul class="pagination pagination-sm justify-content-end">
+        <ul class="pagination pagination-sm justify-content-center">
             {% for i in portfolio.paginator.page_range %}
             {% if portfolio.number == i %}
             <li class="page-item active">
