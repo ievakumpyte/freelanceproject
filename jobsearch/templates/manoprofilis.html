@@ -107,6 +107,7 @@
                 <div class="p-3">
                     <h6>Atsiliepimai</h6>
                 </div>
+                {% if user.is_authenticated %}
                 {% if user_object.id != user.id %}
                 <form action="" method="POST" role="form">
                     {% csrf_token %}
@@ -118,6 +119,7 @@
                         <button class="btn btn-dark ms-3 ms-2" name="action" type="submit">Komentuoti</button>
                     </div>
                 </form>
+                {% endif %}
                 {% endif %}
                 {% if reviews %}
                 {% for review in reviews %}

@@ -13,7 +13,9 @@
                                       height="60" class="rounded-circle mr-3" style="object-fit:cover;">
         {{profilis.name}} {{profilis.surname}}</h5></a>
     <hr>
+    {% if user.is_authenticated %}
     <h3 class="text-center">{{single_skelbimas.name}} </h3>{% if favorited == False%}
+
     <div class="d-flex justify-content-end">
         <a href="{% url 'skelbfavorite' single_skelbimas.id %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark"
@@ -31,6 +33,7 @@
             </svg>
         </a><span>Save</span>
     </div>
+    {%endif%}
     {%endif%}
     {% if single_skelbimas.logo %}
     <img src="{{single_skelbimas.logo.url}}" width="150" height="150" class="center me-3"
