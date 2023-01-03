@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Mano profilis{% endblock %}
+{% block title %}Redaguoti profilį{% endblock %}
 
 {% block content %}
 {%load static%}
@@ -18,7 +18,11 @@
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
                             <h5>{{user_profile.name}} {{user_profile.surname}}</h5>
+                            {% if user_profile.location != None%}
                             <p>{{user_profile.location}}</p>
+                            {% else%}
+                            <p></p>
+                            {% endif %}
                         </div>
                     </div>
 

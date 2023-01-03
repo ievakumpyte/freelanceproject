@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Portfolio{% endblock %}
+{% block title %}Top sritis{% endblock %}
 
 {% block content %}
 {%load static%}
@@ -18,18 +18,15 @@
 </style>
 <section class="bg-gray mt-3">
     <div class="container-lg mt-2">
-        <div class="row ">
+        <div class="row">
 
-                <form action="/search_portfolio" method="Post">
+                <form action="/top_sritis" method="Post">
                     {% csrf_token %}
 
 
-                    <div class="row">
+                    <div class="row justify-content-end">
 
-                        <div class="col-6">
-                            <input type="search" name="paieska" class="form-control rounded" placeholder="Search"
-                                   aria-label="Search"/>
-                        </div>
+
                         <div class="col-5">
                             <select name="filtras" class="form-control rounded form-select mb-3 ">
                                 <option value="" selected>Pasirinkite sritį:</option>
@@ -46,7 +43,7 @@
                             </select>
 
                         </div>
-                        <div class="col">
+                        <div class="col-1">
                             <button type="submit" class="btn light" style=""><span>
                             <i class="bi bi-search"></i>
                             </span></button>
@@ -56,7 +53,8 @@
 
 
             <div class="row my-2 align-items-center justify-content-center my-5">
-                {% for port in portfolio %}
+                {% if qs%}
+                {% for port in qs %}
                 <div class="col-8 col-lg-4 col-xl-3 mb-3">
 
                     <div class="card" style="width: 300px;">
@@ -77,6 +75,9 @@
 
                 </div>
                 {%endfor%}
+                {% else %}
+                <p>Įrašų pagal sritį nerasta</p>
+                {%endif%}
             </div>
 
 

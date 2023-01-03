@@ -224,15 +224,30 @@ def manoprofilis(request, pk):
 
 
 def top(request):
-    paginator = Paginator(Portfolio.objects.all().order_by('-nr_of_likes')[:10:1], 8)
-    page_number = request.GET.get('page')
-    paged_portfolio = paginator.get_page(page_number)
+    portfolio = Portfolio.objects.all().order_by('-nr_of_likes')[:10:1]
+
     context = {
-        "portfolio": paged_portfolio,
+        "portfolio": portfolio,
     }
 
-    return render(request, 'index.html', context=context)
+    return render(request, 'top.html', context=context)
+def top_filter(request):
+    portfolios = Portfolio.objects.all()
+    naujas = None
+    filtras = request.POST["filtras"]
 
+
+    if filtras != '' and filtras is not None:
+        naujas = portfolios.filter(area=filtras).order_by('-nr_of_likes')[:10:1]
+
+    else:
+        naujas = Portfolio.objects.all()
+
+    context = {
+        'qs': naujas
+    }
+
+    return render(request, 'top_sritis.html', context=context)
 @login_required(login_url="signin")
 def redaguotiprofili(request, pk):
     user = request.user

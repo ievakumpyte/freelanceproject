@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Profilis{% endblock %}
+{% block title %}{{single_portfolio.name}}{% endblock %}
 
 {% block content %}
 {%load static%}
@@ -38,16 +38,12 @@
                                 <a href="{% url 'portfavorite' single_portfolio.id %}"><i class="bi bi-bookmark-fill"></i></a><span>Save</span>
                             </div>
                             {%endif%}
-                            {% if single_portfolio.is_like == False%}
+
                             <div class="p-2 bd-highlight">
-                                <a href="{% url 'portlike' single_portfolio.id %}"><i class="bi bi-heart"></i></a><span> {{single_portfolio.nr_of_likes}} Likes</span>
+                                <a href="{% url 'portlike' single_portfolio.id %}"><i class="bi bi-heart-fill" style="color:black"></i></a><span> {{single_portfolio.nr_of_likes}} Likes</span>
                             </div>
 
-                            {% else %}
-                            <div class="p-2 bd-highlight ">
-                                <a href="{% url 'portlike' single_portfolio.id %}"><i class="bi bi-heart-fill"></i></a><span> {{single_portfolio.nr_of_likes}} Likes</span>
-                            </div>
-                            {%endif%}
+
                         </div>
 
                         </div>
