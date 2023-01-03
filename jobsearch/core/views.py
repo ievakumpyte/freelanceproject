@@ -549,7 +549,7 @@ def directs(request, username):
 
     return render(request, 'direct.html', context=context)
 
-
+#upd
 @login_required(login_url="signin")
 def send_direct(request):
     from_user = request.user
